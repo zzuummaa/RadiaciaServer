@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/AndroidStudioProjects/Radiacia/MyApplication/app/src/main/java/com/example/cntgfy/radiacia/SocketAPI/Radiacia/Radiacia.iml" filepath="$USER_HOME$/AndroidStudioProjects/Radiacia/MyApplication/app/src/main/java/com/example/cntgfy/radiacia/SocketAPI/Radiacia/Radiacia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TestSocket.iml" filepath="$PROJECT_DIR$/TestSocket.iml" />
+    </modules>
+  </component>
+</project>
+
