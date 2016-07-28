@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="Client">
     <output-path>$PROJECT_DIR$/out/artifacts/Client</output-path>
     <root id="archive" name="Client.jar">
-      <element id="module-output" name="TestSocket" />
+      <element id="module-output" name="RadiaciaServer" />
     </root>
   </artifact>
 </component>

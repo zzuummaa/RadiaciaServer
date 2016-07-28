@@ -1,4 +1,4 @@
-package Radiacia;
+package Radiacia.handler;
 
 import Radiacia.data.Data;
 
@@ -11,6 +11,11 @@ import java.util.Collection;
  */
 public interface Handler<A extends Data> {
     /**
+     * добавляет данные для будущей обработки
+     */
+    public void add(A a);
+
+    /**
      * Обрабатывает вохдную коллекцию данных, составляя выходную
      */
     public void handle(Collection<A> data) throws Exception;
@@ -18,5 +23,5 @@ public interface Handler<A extends Data> {
     /**
      * Обрабатывает входящие данные
      */
-    public void handle(A data) throws Exception;
+    public void handle() throws Exception;
 }

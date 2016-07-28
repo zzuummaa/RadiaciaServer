@@ -1,8 +1,10 @@
-package Radiacia.data;
+package Radiacia;
 
-import Radiacia.ClientHandler;
-import Radiacia.GameHandler;
-import Radiacia.MultiHandler;
+import Radiacia.data.ClientData;
+import Radiacia.data.Data;
+import Radiacia.data.GamerData;
+import Radiacia.data.MultiData;
+import Radiacia.handler.ClientHandler;
 
 import java.util.ArrayList;
 
