@@ -5,4 +5,14 @@ package Radiacia.data;
  */
 public class GameData implements Data {
     public GamerData gamerData;
+
+    @Override
+    public void setOwner(Object owner) {
+
+    }
+
+    @Override
+    public Object getOwner() {
+        return null;
+    }
 }

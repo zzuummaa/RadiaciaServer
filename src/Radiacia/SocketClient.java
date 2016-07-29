@@ -23,8 +23,8 @@ public class SocketClient implements Client {
     public SocketClient(Socket socket) throws IOException {
         this.socket = socket;
 
-        this.in = new ObjectInputStream(socket.getInputStream());
         this.out = new ObjectOutputStream(socket.getOutputStream());
+        this.in = new ObjectInputStream(socket.getInputStream());
     }
 
     @Override
@@ -73,8 +73,14 @@ public class SocketClient implements Client {
      */
     @Override
     public void disconnect() throws IOException {
-        write(ClientData.DISCONNECT_DATA);
-        socket.close();
+        try {
+            write(ClientData.DISCONNECT_DATA);
+        } catch (IOException e) {
+            Debug.println("disconnect client", "can't write disconnect");
+        } finally {
+            socket.close();
+            isConnected = false;
+        }
     }
 
     private boolean isConnected = true;

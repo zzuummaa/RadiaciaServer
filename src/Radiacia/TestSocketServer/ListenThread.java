@@ -15,6 +15,7 @@ class ListenThread extends Thread {
     Client client;
 
     ListenThread(ClientHandler clientHandler, Client client) {
+        super("Listen thread");
         this.clientHandler = clientHandler;
         this.client = client;
         start();
@@ -24,7 +25,11 @@ class ListenThread extends Thread {
     public void run() {
         try {
             Data data = client.read();
-            if (data instanceof ClientData) clientHandler.add( (ClientData) data );
+            if (data instanceof ClientData) {
+                ClientData clientData = (ClientData) data;
+                clientData.setOwner(client);
+                clientHandler.add( (ClientData) data );
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

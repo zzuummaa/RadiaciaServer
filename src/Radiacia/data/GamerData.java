@@ -7,4 +7,14 @@ import Radiacia.Game.Gamer;
  */
 public class GamerData implements Data{
     public Gamer gamer;
+
+    @Override
+    public void setOwner(Object owner) {
+
+    }
+
+    @Override
+    public Object getOwner() {
+        return null;
+    }
 }

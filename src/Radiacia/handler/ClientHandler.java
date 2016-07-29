@@ -21,13 +21,13 @@ public class ClientHandler implements Handler<ClientData> {
      * @throws IOException
      */
     @Override
-    public void handle(Collection<ClientData> data) throws IOException{
+    public synchronized void handle(Collection<ClientData> data) throws IOException{
         Iterator<ClientData> iterator = data.iterator();
 
         while (iterator.hasNext()) {
             ClientData clientData = iterator.next();
 
-            if (clientData.disconnect()) clientData.owner.disconnect();
+            if (clientData.isDisconnect()) clientData.getOwner().disconnect();
         }
     }
 
@@ -36,8 +36,10 @@ public class ClientHandler implements Handler<ClientData> {
      */
     @Override
     public void handle() throws IOException{
-        handle(dataList);
-        dataList.clear();
+        synchronized (dataList) {
+            handle(dataList);
+            dataList.clear();
+        }
     }
 
     private ArrayList<ClientData> dataList = new ArrayList<>();

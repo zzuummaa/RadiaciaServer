@@ -4,6 +4,7 @@ import Radiacia.Client;
 import Radiacia.SocketClient;
 import Radiacia.SocketServer;
 import Radiacia.handler.ClientHandler;
+import sun.security.util.Debug;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,6 +23,11 @@ public class Main_TestSocketServer {
         Thread.sleep(30);
 
         client.disconnect();
+
+        Thread.sleep(30);
+
+        simpleServer.interrupt();
+        simpleServer.socketServer.close();
     }
 
     private static class SimpleServer extends Thread {
@@ -46,8 +52,19 @@ public class Main_TestSocketServer {
                 try {
                     listenThreads.add( new ListenThread(clientHandler, socketServer.accept()) );
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    if (!isInterrupted()) e.printStackTrace();
                 }
+            }
+        }
+
+        @Override
+        public void interrupt() {
+            super.interrupt();
+            clientHandlerThread.interrupt();
+            try {
+                socketServer.close();
+            } catch (IOException e) {
+                Debug.println("Simple server", "can't close socket server");
             }
         }
     }

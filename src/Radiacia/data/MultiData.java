@@ -15,4 +15,14 @@ public class MultiData implements Data {
     public MultiData(Data[] data) {
         this.data = data;
     }
+
+    @Override
+    public void setOwner(Object owner) {
+
+    }
+
+    @Override
+    public Object getOwner() {
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package Radiacia.data;
 
+import Radiacia.Client;
+
 /**
  * Created by Cntgfy on 24.07.2016.
  *
@@ -7,14 +9,14 @@ package Radiacia.data;
  *
  * version 0.5
  */
-public class ClientData implements Data {
+public class ClientData implements Data<Client> {
     private boolean disconnect = false;
 
     /**
      * @return инструкцию
      *         @see #disconnect(boolean)
      */
-    public boolean disconnect() {
+    public boolean isDisconnect() {
         return disconnect;
     }
 
@@ -32,5 +34,17 @@ public class ClientData implements Data {
     static {
         DISCONNECT_DATA = new ClientData();
         DISCONNECT_DATA.disconnect(true);
+    }
+
+    private Client owner;
+
+    @Override
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public Client getOwner() {
+        return owner;
     }
 }

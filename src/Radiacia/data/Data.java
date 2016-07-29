@@ -1,7 +1,5 @@
 package Radiacia.data;
 
-import Radiacia.Client;
-
 import java.io.Serializable;
 
 /**
@@ -11,7 +9,9 @@ import java.io.Serializable;
  *
  * version 0.5
  */
-public interface Data extends Serializable {
+public interface Data<A> extends Serializable {
     //Поле заполняется получателем данных
-    public Client owner = null;
+    public void setOwner(A owner);
+
+    public A getOwner();
 }

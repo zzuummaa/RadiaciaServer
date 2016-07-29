@@ -11,6 +11,7 @@ class ClientHandlerThread extends Thread {
     ClientHandler clientHandler;
 
     ClientHandlerThread(ClientHandler clientHandler) {
+        super("Client handler thread");
         this.clientHandler = clientHandler;
     }
 
