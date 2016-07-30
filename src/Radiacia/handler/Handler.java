@@ -22,6 +22,19 @@ public interface Handler<A extends Data> {
 
     /**
      * Обрабатывает входящие данные
+     *
+     * Если вы для вызова метода используете <code>HandlerThread</code>
+     * со стандартной реализацией <code>run()</code>, то помните,
+     * что <code>HandlerThread</code></code> не обрабатывает исклчюения,
+     * а только выводит сообщения о них
+     * @see Radiacia.handler.Handler
      */
     public void handle() throws Exception;
+
+    /**
+     * @return есть ли необработаные данные
+     *         true - есть
+     *         false - нету
+     */
+    public boolean containsNotHandle();
 }

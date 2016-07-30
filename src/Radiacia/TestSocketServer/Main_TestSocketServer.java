@@ -4,6 +4,7 @@ import Radiacia.Client;
 import Radiacia.SocketClient;
 import Radiacia.SocketServer;
 import Radiacia.handler.ClientHandler;
+import Radiacia.handler.HandlerThread;
 import sun.security.util.Debug;
 
 import java.io.IOException;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
  * Created by Cntgfy on 28.07.2016.
  */
 public class Main_TestSocketServer {
+    private static final String name = "Main test socket server";
+
     public static void main(String[] args) throws IOException, InterruptedException {
         SimpleServer simpleServer = new SimpleServer();
 
@@ -23,6 +26,7 @@ public class Main_TestSocketServer {
         Thread.sleep(30);
 
         client.disconnect();
+        System.out.println(name + ": client disconnected");
 
         Thread.sleep(30);
 
@@ -41,12 +45,12 @@ public class Main_TestSocketServer {
         }
 
         ArrayList<ListenThread> listenThreads = new ArrayList<>();
-        ClientHandlerThread clientHandlerThread;
+        HandlerThread handlerThread;
 
         @Override
         public void run() {
-            clientHandlerThread = new ClientHandlerThread(clientHandler);
-            clientHandlerThread.start();
+            handlerThread = new HandlerThread(clientHandler);
+            handlerThread.start();
 
             while (!isInterrupted()) {
                 try {
@@ -60,7 +64,7 @@ public class Main_TestSocketServer {
         @Override
         public void interrupt() {
             super.interrupt();
-            clientHandlerThread.interrupt();
+            handlerThread.interrupt();
             try {
                 socketServer.close();
             } catch (IOException e) {

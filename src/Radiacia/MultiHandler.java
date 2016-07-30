@@ -28,4 +28,9 @@ public class MultiHandler implements Handler {
     public void handle() throws Exception {
 
     }
+
+    @Override
+    public boolean containsNotHandle() {
+        return false;
+    }
 }

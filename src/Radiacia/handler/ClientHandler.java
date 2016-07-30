@@ -13,6 +13,7 @@ import java.util.Iterator;
  * Позволяет выполнять инструкции, предназначенные клиенту
  */
 public class ClientHandler implements Handler<ClientData> {
+    public static final String NAME = "Client handler";
 
     /**
      * Отключает клиента, если в его данных содержится эта инструкция
@@ -27,7 +28,10 @@ public class ClientHandler implements Handler<ClientData> {
         while (iterator.hasNext()) {
             ClientData clientData = iterator.next();
 
-            if (clientData.isDisconnect()) clientData.getOwner().disconnect();
+            if (clientData.isDisconnect()) {
+                clientData.getOwner().disconnect();
+                System.out.println(NAME + ": client disconnected");
+            }
         }
     }
 
@@ -49,7 +53,8 @@ public class ClientHandler implements Handler<ClientData> {
         dataList.add(clientData);
     }
 
-    public boolean withoutData() {
-        return dataList.isEmpty();
+    @Override
+    public boolean containsNotHandle() {
+        return !dataList.isEmpty();
     }
 }
