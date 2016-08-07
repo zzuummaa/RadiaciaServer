@@ -2,13 +2,14 @@ package Radiacia.Game;
 
 /**
  * Created by Cntgfy on 04.07.2016.
+ * Может стрелять
  */
-public interface CanShoot {
+public interface MayShoot {
     public boolean isShoot();
 
     public void setIsShoot(boolean isShoot);
 
-    public Shot getShoot();
+    public Shot getShot();
 
     public void shoot();
 

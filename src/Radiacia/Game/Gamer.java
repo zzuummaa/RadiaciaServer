@@ -1,14 +1,17 @@
 package Radiacia.Game;
 
+import java.io.Serializable;
+
 /**
  * Created by Cntgfy on 02.07.2016.
  */
-public class Gamer extends GameObject implements CanShoot {
+public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOfEarth, Serializable {
     private String name;
-    private boolean isALive;
+    private boolean isALive = true;
+    private boolean isShoot = false;
 
-
-    private boolean isShoot;
+    //Точность определения местоположения игрока в метрах
+    private float accuracy = 9f;
 
     public Gamer() {
         name = "";
@@ -16,40 +19,30 @@ public class Gamer extends GameObject implements CanShoot {
 
     public Gamer(String name) {
         this.name = name;
-        this.isALive = true;
     }
 
     public Gamer(Gamer gamer) {
+        super(gamer);
         this.name = gamer.name;
-        this.isALive = gamer.isALive();
-        this.latitude = gamer.getLatitude();
-        this.longitude = gamer.getLongitude();
-        this.direction = gamer.getDirection();
-
+        this.isALive = gamer.isALive;
         this.isShoot = gamer.isShoot;
+        this.accuracy = gamer.accuracy;
     }
 
-    /*
-    * direction в градусах [-180;180]
-    * */
     public Gamer(String name, double latitude, double longitude, float direction) {
+        super(latitude, longitude, direction);
         this.name = name;
-        this.isALive = true;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.direction = direction;
-        this.isShoot = false;
     }
 
     /*
-    * Устанавливает значения полей принадлежащих классу Gamer на те, которые содержатся в объекте gamer
+    * Устанавливает значения полей принадлежащих этому объекту на значения полей объекта gamer
     * */
     public void setGamer(Gamer gamer) {
         super.setGameObject(gamer);
 
         this.isShoot = gamer.isShoot();
         this.isALive = gamer.isALive();
-        this.name = gamer.name;
+        this.name = gamer.getName();
     }
 
     /*
@@ -61,6 +54,7 @@ public class Gamer extends GameObject implements CanShoot {
 
         this.isShoot = gamer.isShoot();
         this.isALive = gamer.isALive();
+        this.accuracy = gamer.getAccuracy();
     }
 
     public void setALive(boolean isALive) {
@@ -79,47 +73,61 @@ public class Gamer extends GameObject implements CanShoot {
         return isALive;
     }
 
-    @Override
-    public String toString() {
-        return "name="     + name
-            + " isAlive="  + isALive
-            + " latitude=" + latitude
-            + " longitude="+ longitude
-            + " direction="+ direction
-            + " isShoot="  + isShoot;
-    }
-
     /*
     * Выстрел по игроку
     * вызывает метод попадания у игрока по которому стреляют, если попадание произошло
     * */
+    @Override
     public void shoot(GameObject gameObject) {
-        Shoot shoot = new Shoot(latitude, longitude, direction, this);
+        Shot shoot = new Shot(latitude, longitude, direction, this);
         if (shoot.isHit(gameObject)) {
             gameObject.hit();
         }
     }
 
+    @Override
     public void shoot(){
         isShoot = true;
     }
 
+    @Override
     public boolean isShoot() {
         return isShoot;
     }
 
-    public void setIsShoot(boolean isShot) {
-        this.isShoot = isShot;
+    @Override
+    public void setIsShoot(boolean isShoot) {
+        this.isShoot = isShoot;
     }
 
-    public Shoot getShoot() {
-        return new Shoot(latitude, longitude, direction, this);
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    @Override
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    @Override
+    public Shot getShot() {
+        return new Shot(latitude, longitude, direction, this);
     }
 
     /*
      * О боже! В нас попали! Мы истекаем кровью! Передайте, что я любил свою жену!
      */
+    @Override
     public void hit() {
         isALive = false;
+    }
+
+    @Override
+    public String toString() {
+        return "name"      + name
+       + " " + "isAlive"  + isALive
+       + " " + "isShoot"  + isShoot
+       + " " + "accuracy"  + accuracy
+       + " " + super.toString();
     }
 }

@@ -1,12 +1,13 @@
 package Radiacia.gui;
 
-import Radiacia.Game.Shoot;
+import Radiacia.Game.Gamer;
+import Radiacia.Game.Shot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Cntgfy on 07.08.2016.
@@ -16,11 +17,14 @@ public class GameWindow extends JPanel {
     private double longitude;
     private double altitude;
 
-    private List<Shoot> shoots = new ArrayList<>();
+    private Set<Shot> shoots = new HashSet<>();
+    private Set<Gamer> gamers = new HashSet<>();
 
     public GameWindow() {
         setBackground(Color.WHITE);
     }
+
+    GameArtist artist = new GameArtist(null);
 
     @Override
     public void paint(Graphics g) {
@@ -28,7 +32,18 @@ public class GameWindow extends JPanel {
 
         design(g);
         coordinateInfo(g);
+
+        artist.setGraphics(g);
+        drawShots();
     }
+
+    public void drawShots() {
+        for (Shot shoot: shoots) {
+            artist.drawShot(shoot);
+        }
+    }
+
+
 
     /**
      * Выводит информацию о месте, на которое сейчас направллен экран
@@ -46,11 +61,19 @@ public class GameWindow extends JPanel {
         g.drawLine(0, 0, getWidth(), 0);
     }
 
-    public void addShoots(Collection<Shoot> shoots) {
+    public void addGamers(Collection<Gamer> gamers) {
+        this.gamers.addAll(gamers);
+    }
+
+    public Collection<Gamer> getGamers() {
+        return gamers;
+    }
+
+    public void addShoots(Collection<Shot> shoots) {
         this.shoots.addAll(shoots);
     }
 
-    public Collection<Shoot> getShoots() {
+    public Collection<Shot> getShoots() {
         return shoots;
     }
 
