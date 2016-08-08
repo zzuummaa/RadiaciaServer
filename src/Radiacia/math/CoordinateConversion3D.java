@@ -146,6 +146,14 @@ public class CoordinateConversion3D {
     }
 
     /**
+     * Преобразует широту и долготу в 3-х меные координаты
+     * @see #angleOnPlane(double[], double[]) - вычисляет угол
+     */
+    public static float angleOnPlane(double latitude1, double longitude1, double latitude2, double longitude2) {
+        return angleOnPlane(position(latitude1, longitude1), position(latitude2, longitude2));
+    }
+
+    /**
      * Возвращает угол поворота проекции вектора в касательной плоскости в точке.
      * Угол считается от направления магнитного поля
      *

@@ -24,7 +24,7 @@ public class GameWindow extends JPanel {
         setBackground(Color.WHITE);
     }
 
-    GameArtist artist = new GameArtist(null);
+    GameArtist artist = new GameArtist(null, latitude, longitude);
 
     @Override
     public void paint(Graphics g) {

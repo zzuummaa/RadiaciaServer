@@ -124,10 +124,10 @@ public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOf
 
     @Override
     public String toString() {
-        return "name"      + name
-       + " " + "isAlive"  + isALive
-       + " " + "isShoot"  + isShoot
-       + " " + "accuracy"  + accuracy
+        return "name="      + name
+       + " " + "isAlive="  + isALive
+       + " " + "isShoot="  + isShoot
+       + " " + "accuracy="  + accuracy
        + " " + super.toString();
     }
 }
