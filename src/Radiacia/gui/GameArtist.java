@@ -13,14 +13,11 @@ import java.awt.*;
  */
 public class GameArtist {
     private Graphics g;
-    private double latitude;
-    private double longitude;
-    private int altitude = 100;
+    private GameObject pos;
 
-    public GameArtist(Graphics g, double latitude, double longitude) {
+    public GameArtist(Graphics g, GameObject pos) {
         this.g = g;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.pos = pos;
     }
 
     public void setGraphics(Graphics g) {
@@ -29,7 +26,7 @@ public class GameArtist {
 
     CoordinateConversion3D cc3 = new CoordinateConversion3D();
 
-    public void drawShot(Shot shot) {
+    public void draw(Shot shot) {
         int[] pos = posGameObject(shot);
 
         int scale = 10;
@@ -49,9 +46,9 @@ public class GameArtist {
      *         pos[1] - y
      */
     public int[] posGameObject(GameObject go) {
-        double distanceBetween = cc3.distanceBetween(latitude, longitude, go.getLatitude(), go.getLongitude());
+        double distanceBetween = cc3.distanceBetween(pos.getLatitude(), pos.getLongitude(), go.getLatitude(), go.getLongitude());
 
-        float angleOnPlane = cc3.angleOnPlane(latitude, longitude, go.getLatitude(), go.getLongitude());
+        float angleOnPlane = cc3.angleOnPlane(pos.getLatitude(), pos.getLongitude(), go.getLatitude(), go.getLongitude());
 
         int[] pos = new int[2];
         pos[0] = (int) (distanceBetween * Math.cos(angleOnPlane));
@@ -60,27 +57,11 @@ public class GameArtist {
         return pos;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setPos(GameObject pos) {
+        this.pos = pos;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setAltitude(int altitude) {
-        this.altitude = altitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public int getAltitude() {
-        return altitude;
+    public GameObject getPos() {
+        return pos;
     }
 }

@@ -226,4 +226,19 @@ public class CoordinateConversion3D {
 
         return null;
     }
+
+    /**
+     * Находит приращение широты при перемещении вдоль меридиана вдоль указанной долготы
+     *
+     * @param longitude долгота, вдоль которой перемещаемся
+     * @param meters длина перемещения
+     * @return изменение широты
+     */
+    public static double deltaLatitude(double longitude, double meters) {
+        double latRadius = Math.cos(Math.toRadians(longitude)) * EARTH_RADIUS;
+
+        double lengthOfCircle = latRadius * Math.PI * 2;
+
+        return meters / lengthOfCircle * 360;
+    }
 }
