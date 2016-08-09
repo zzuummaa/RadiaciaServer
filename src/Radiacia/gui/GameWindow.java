@@ -6,17 +6,14 @@ import Radiacia.Game.Shot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Cntgfy on 07.08.2016.
  */
 public class GameWindow extends JPanel {
     private GameObject pos;
-    private double altitude = 100;
+    private double altitude = 10000;
 
     private Set<Shot> shots = new HashSet<>();
     private Set<Gamer> gamers = new HashSet<>();
@@ -25,9 +22,10 @@ public class GameWindow extends JPanel {
         setBackground(Color.WHITE);
 
         pos = new GameObject(0, 0, 0f);
+        artist = new GameArtist(null, pos);
     }
 
-    GameArtist artist = new GameArtist(null, pos);
+    GameArtist artist;
 
     @Override
     public void paint(Graphics g) {
@@ -57,15 +55,16 @@ public class GameWindow extends JPanel {
     }
 
     //Количество пикселей на метр
-    public static final double ppm = 5000d;
-    private double scale;
+    public static double ppm = 1;
+    private double scale = 1;
 
     /**
      * Возвращает высоту просмотра объектов в виде размера игровых эелементов
      */
     private double altitudeScale() {
         if (altitude != 0) {
-            this.scale = ppm / (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / altitude);
+            this.ppm = Toolkit.getDefaultToolkit().getScreenSize().getWidth() / altitude;
+            this.scale = ppm;
         } else {
             this.scale = Double.MAX_VALUE;
         }
@@ -80,6 +79,7 @@ public class GameWindow extends JPanel {
         }
     }
 
+    private static String format = "%s: %.8f";
     /**
      * Выводит информацию о месте, на которое сейчас направллен экран
      */
@@ -87,9 +87,10 @@ public class GameWindow extends JPanel {
         int beginX = 10;
         int beginY = 10;
         int deltaY = 20;
-        g.drawString("latitude: " + pos.getLatitude(), beginX, beginY + deltaY);
-        g.drawString("longitude: " + pos.getLongitude(), beginX, beginY + deltaY*2);
-        g.drawString("altitude: " + (int) altitude, beginX, beginY + deltaY*3);
+
+        g.drawString(String.format(format, "latitude", pos.getLatitude()), beginX, beginY + deltaY);
+        g.drawString(String.format(format, "longitude", pos.getLongitude()), beginX, beginY + deltaY*2);
+        g.drawString("altitude: " + (long) altitude, beginX, beginY + deltaY*3);
     }
 
     public void design(Graphics g) {
@@ -146,6 +147,6 @@ public class GameWindow extends JPanel {
      * @return метры на Земном шаре
      */
     public double realMeters(double pixels) {
-        return scale / ppm * pixels;
+        return pixels / ppm;
     }
 }

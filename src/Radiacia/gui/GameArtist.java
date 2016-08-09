@@ -29,12 +29,12 @@ public class GameArtist {
     public void draw(Shot shot) {
         int[] pos = posGameObject(shot);
 
-        int scale = 10;
+        int size = 10;
         g.setColor(Color.RED);
-        g.fillOval(pos[0] - scale/2, pos[1] - scale/2, scale, scale);
+        g.fillOval(pos[0] - size/2, pos[1] - size/2, size, size);
 
         g.setColor(Color.BLACK);
-        g.drawLine(pos[0], pos[1], pos[0] + scale*2, pos[1] + scale*2);
+        g.drawLine(pos[0], pos[1], pos[0] + size*2, pos[1] + size*2);
     }
 
     /**
