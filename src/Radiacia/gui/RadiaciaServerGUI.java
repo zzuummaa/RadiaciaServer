@@ -1,5 +1,7 @@
 package Radiacia.gui;
 
+import Radiacia.math.CoordinateConversion3D;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -8,7 +10,11 @@ import java.awt.event.*;
  */
 public class RadiaciaServerGUI extends JFrame {
     //Величина на которую умножается текущая высота над поверхностью Земли, при прокрутке колесика
-    private double scroll = 0.15;
+    private double scroll = 0.1d;
+
+    private static final CoordinateConversion3D cc3 = new CoordinateConversion3D();
+
+    private GameWindow gameWindow;
 
     public static void main(String[] args) {
         RadiaciaServerGUI radiaciaServerGUI = new RadiaciaServerGUI();
@@ -19,7 +25,7 @@ public class RadiaciaServerGUI extends JFrame {
         setSize(getToolkit().getScreenSize());
         setVisible(true);
 
-        GameWindow gameWindow = new GameWindow();
+        gameWindow = new GameWindow();
         add(gameWindow);
 
         addWindowListener(new WindowAdapter() {
@@ -35,30 +41,53 @@ public class RadiaciaServerGUI extends JFrame {
                 if (e.getID() == MouseEvent.MOUSE_WHEEL) {
                     gameWindow.setAltitude(gameWindow.getAltitude() + gameWindow.getAltitude() * scroll * e.getPreciseWheelRotation());
                     gameWindow.repaint();
-                    //System.out.println("scroll: " + e.getPreciseWheelRotation());
+                    System.out.println("scroll: " + e.getPreciseWheelRotation());
                 }
             }
         });
 
-        addMouseMotionListener(new MouseMotionListener() {
-            int x;
-            int y;
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                x = e.getX();
-                y = e.getY();
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-
-            }
-        });
+        PositionMover positionMover = new PositionMover();
+        gameWindow.addMouseMotionListener(positionMover);
+        gameWindow.addMouseListener(positionMover);
     }
 
-    private class MouseMover implements MouseListener {
-        private boolean isPressed = false;
+    private class PositionMover implements MouseListener, MouseMotionListener {
+        int x;
+        int y;
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            double dMetersX = e.getX() - x;
+            double dMetersY = e.getY() - y;
+
+            System.out.println("delta x in pics:  " + dMetersX);
+            System.out.println("delta y in pics:  " + dMetersY);
+
+            dMetersX = gameWindow.realMeters(dMetersX);
+            dMetersY = gameWindow.realMeters(dMetersY);
+
+            double newLongitude = gameWindow.getPos().getLongitude();
+            newLongitude += cc3.deltaLongitude(dMetersX);
+
+            double newLatitude = gameWindow.getPos().getLatitude();
+            newLatitude += cc3.deltaLatitude(newLongitude, dMetersY);
+
+            gameWindow.getPos().setLatitude(newLatitude);
+            gameWindow.getPos().setLongitude(newLongitude);
+
+            x = e.getX();
+            y = e.getY();
+
+            gameWindow.repaint();
+
+            System.out.println("delta x in meters " + dMetersX);
+            System.out.println("delta y in meters " + dMetersY);
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
+        }
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -67,12 +96,13 @@ public class RadiaciaServerGUI extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            isPressed = true;
+            x = e.getX();
+            y = e.getY();
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            isPressed = false;
+
         }
 
         @Override

@@ -51,19 +51,23 @@ public class GameWindow extends JPanel {
         artist.setGraphics(g);
         drawShots();
 
+        //Возвращение начального значения scale
         scale = 1 / scale;
         g2d.scale(scale, scale);
     }
+
+    //Количество пикселей на метр
+    public static final double ppm = 5000d;
+    private double scale;
 
     /**
      * Возвращает высоту просмотра объектов в виде размера игровых эелементов
      */
     private double altitudeScale() {
-        double scale;
         if (altitude != 0) {
-            scale = 1 / altitude;
+            this.scale = ppm / (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / altitude);
         } else {
-            scale = Double.MAX_VALUE;
+            this.scale = Double.MAX_VALUE;
         }
 
         return scale;
@@ -125,5 +129,23 @@ public class GameWindow extends JPanel {
     public void setPos(GameObject pos) {
         this.pos = pos;
         repaint();
+    }
+
+    /**
+     * @return количество пикселей, видных на данной высоте
+     * @see #altitudeScale() - вычисление
+     */
+    public double getScale() {
+        return scale;
+    }
+
+    /**
+     * Переводит пиксели на экране в метры на Земном шаре
+     *
+     * @param pixels
+     * @return метры на Земном шаре
+     */
+    public double realMeters(double pixels) {
+        return scale / ppm * pixels;
     }
 }

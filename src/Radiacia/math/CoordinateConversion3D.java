@@ -227,6 +227,9 @@ public class CoordinateConversion3D {
         return null;
     }
 
+    //Длина окружности Земли у экватора
+    private static final double EARTH_CIRCLE_LENGTH = EARTH_RADIUS * Math.PI * 2;
+
     /**
      * Находит приращение широты при перемещении вдоль меридиана вдоль указанной долготы
      *
@@ -235,10 +238,19 @@ public class CoordinateConversion3D {
      * @return изменение широты
      */
     public static double deltaLatitude(double longitude, double meters) {
-        double latRadius = Math.cos(Math.toRadians(longitude)) * EARTH_RADIUS;
-
-        double lengthOfCircle = latRadius * Math.PI * 2;
+        double lengthOfCircle = Math.cos(Math.toRadians(longitude)) * EARTH_CIRCLE_LENGTH;
 
         return meters / lengthOfCircle * 360;
+    }
+
+    /**
+     * Находит приращение долготы при перемещении по Земной окружности
+     * вдоль направления изменения долготы
+     *
+     * @param meters длина перемещения
+     * @return изменение долготы
+     */
+    public static double deltaLongitude(double meters) {
+        return meters / EARTH_CIRCLE_LENGTH * 360;
     }
 }
