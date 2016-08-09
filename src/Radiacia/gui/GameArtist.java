@@ -51,8 +51,10 @@ public class GameArtist {
         float angleOnPlane = cc3.angleOnPlane(pos.getLatitude(), pos.getLongitude(), go.getLatitude(), go.getLongitude());
 
         int[] pos = new int[2];
-        pos[0] = (int) (distanceBetween * Math.cos(angleOnPlane));
-        pos[1] = (int) (distanceBetween * Math.sin(angleOnPlane));
+        pos[0] = (int) (distanceBetween * -Math.sin(Math.toRadians(angleOnPlane)));
+        pos[1] = (int) (distanceBetween * -Math.cos(Math.toRadians(angleOnPlane)));
+
+        System.out.println(angleOnPlane);
 
         return pos;
     }

@@ -13,8 +13,8 @@ public class Main_TestGUI {
         GameWindow gameWindow = serverGUI.gameWindow;
 
         ArrayList<Shot> shots = new ArrayList<>();
-        shots.add(new Shot(0, 0, 100));
-        shots.add(new Shot(10, 2, -100));
+        //shots.add(new Shot(0, 0, 100));
+        shots.add(new Shot(50, 50, 0));
 
         gameWindow.addShots(shots);
     }

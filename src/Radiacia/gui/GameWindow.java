@@ -44,6 +44,7 @@ public class GameWindow extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         double scale = altitudeScale();
+        g2d.translate(getWidth()/2, getHeight()/2);
         g2d.scale(scale, scale);
 
         artist.setGraphics(g);
@@ -52,6 +53,7 @@ public class GameWindow extends JPanel {
         //Возвращение начального значения scale
         scale = 1 / scale;
         g2d.scale(scale, scale);
+        g2d.translate(-getWidth()/2, -getHeight()/2);
     }
 
     //Количество пикселей на метр

@@ -8,12 +8,10 @@ public class CoordinateConversion3D {
     /**
      * Находит угол между 3-х мерными векторами
      *
-     * @return угол в градусах [-180; 180]
+     * @return угол в градусах [0; 180]
      */
     public static float angle(double[] vec1, double[] vec2) {
-        float aCos = (float) Math.toDegrees(Math.acos(cos(vec1, vec2)));
-
-        return Math.asin(sin(vec1, vec2)) > 0 ? aCos : -aCos;
+        return (float) Math.toDegrees(Math.acos(cos(vec1, vec2)));
     }
 
     //Радиус Земли в метрах
@@ -150,7 +148,10 @@ public class CoordinateConversion3D {
      * @see #angleOnPlane(double[], double[]) - вычисляет угол
      */
     public static float angleOnPlane(double latitude1, double longitude1, double latitude2, double longitude2) {
-        return angleOnPlane(position(latitude1, longitude1), position(latitude2, longitude2));
+        double[] point1 = position(latitude1, longitude1);
+        double[] point2 = position(latitude2, longitude2);
+
+        return angleOnPlane(point1, vectorsDifference(point2, point1));
     }
 
     /**
@@ -161,6 +162,7 @@ public class CoordinateConversion3D {
      * @param vector вектор
      *
      * @return угол поворота вектора в касательной к сфере плоскости в градусах
+     *        (нулевой угол считается от верхнего направления), [-180; 180]
      */
     public static float angleOnPlane(double[] point, double[] vector) {
         //Это просто повернутый на 180 градусов point
@@ -172,7 +174,11 @@ public class CoordinateConversion3D {
         double[] magnetVector = {0, 0, EARTH_RADIUS};
         magnetVector = projectionOnPlane(normal, magnetVector);
 
-        return angle(magnetVector, projectionVector);
+        //Правая или левая тройка
+        double[] vec = vecComposition(magnetVector, projectionVector);
+        boolean leftOrRight = scalarComposition(vec, normal) > 0;
+
+        return leftOrRight ? angle(magnetVector, projectionVector) : -angle(magnetVector, projectionVector);
     }
 
     /**
