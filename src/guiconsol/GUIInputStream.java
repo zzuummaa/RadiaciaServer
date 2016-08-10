@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,23 +31,8 @@ public class GUIInputStream extends InputStream {
     }
 
     @Override
-    public synchronized int read() throws IOException {
-        if (newIn.available() == 0) {
-            if (queue.isEmpty()) {
-                return -1;
-            }
-
-            synchronized (queue) {
-                newOut.write(queue.remove(0).getBytes());
-                newOut.flush();
-            }
-        }
-
+    public int read() throws IOException {
         return newIn.read();
-    }
-
-    private void waitData(Collection collection) {
-        while (collection.isEmpty()) Thread.yield();
     }
 
     public void setTextField(JTextField tf) {
@@ -70,12 +54,17 @@ public class GUIInputStream extends InputStream {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                synchronized (queue) {
-                    queue.add(tf.getText() + System.lineSeparator());
-                    tf.setText("");
+            try {
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    synchronized (newOut) {
+                        writeLine(tf.getText());
+                        tf.setText("");
+                    }
                 }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
+
         }
 
         @Override
@@ -84,6 +73,9 @@ public class GUIInputStream extends InputStream {
         }
     }
 
+    /**
+     * Слушает поток ввода со стандартной консоли
+     */
     private class ListenInThread extends Thread {
         private BufferedReader reader;
 
@@ -94,16 +86,44 @@ public class GUIInputStream extends InputStream {
         @Override
         public void run() {
             try {
-                while (!isInterrupted()) queue.add(reader.readLine());
+                while (!isInterrupted()) writeLine(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void writeFromQueue() throws IOException {
+        synchronized (queue) {
+            while (!queue.isEmpty()) {
+                newOut.write(queue.remove(0).getBytes());
+            }
+            newOut.flush();
+        }
+    }
+
+    /**
+     * Записывает строку в этот выходной поток
+     *
+     * @throws IOException
+     */
+    private void writeLine(String str) throws IOException {
+        newOut.write( (str + System.lineSeparator()).getBytes() );
+    }
+
     @Override
     public void close() throws IOException {
         listenInThread.interrupt();
         super.close();
+    }
+
+    @Override
+    public int available() throws IOException {
+        return newIn.available();
+    }
+
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        return newIn.read(b, off, len);
     }
 }
