@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by Cntgfy on 14.11.2015.
  */
-public class Server extends Frame {
+public class Server extends JFrame {
     ServerSockets serverSockets;
     Thread serverThread = new Thread();
     TextArea ta1;
@@ -17,7 +18,7 @@ public class Server extends Frame {
     public Server(String s) {
         super(s);
         setVisible(true);
-        setBounds(10, 10, 400, 400);
+        setBounds(10, 10, 400, 500);
         setLayout(null);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -84,7 +85,6 @@ public class Server extends Frame {
 
     public static void main(String[] args) throws IOException {
         Server server = new Server("Server");
-        //ServerSocketFromAndroid serverSocketFromAndroid = new ServerSocketFromAndroid();
     }
 
 }
