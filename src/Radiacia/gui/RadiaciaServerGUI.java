@@ -1,11 +1,11 @@
 package Radiacia.gui;
 
+import Radiacia.Game.Gamer;
 import Radiacia.Game.Shot;
 import Radiacia.math.CoordinateConversion3D;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Iterator;
 
 /**
  * Created by Cntgfy on 08.08.2016.
@@ -17,7 +17,8 @@ public class RadiaciaServerGUI extends JFrame {
     private static final CoordinateConversion3D cc3 = new CoordinateConversion3D();
 
     public GameWindow gameWindow;
-    private JButton nextBt;
+    private JButton nextShotBt;
+    private JButton nextGamerBt;
 
     public static void main(String[] args) {
         RadiaciaServerGUI radiaciaServerGUI = new RadiaciaServerGUI();
@@ -53,27 +54,15 @@ public class RadiaciaServerGUI extends JFrame {
         gameWindow.addMouseMotionListener(positionMover);
         gameWindow.addMouseListener(positionMover);
 
-        nextBt = new JButton("Next shot");
-        nextBt.setBounds(getWidth() - 120, 10, 100, 40);
-        nextBt.addActionListener(new ActionListener() {
-            Iterator<Shot> iterator = null;
-            int i = 0;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (iterator == null) iterator = gameWindow.getShots().iterator();
+        nextShotBt = new JButton("Next shot");
+        nextShotBt.setSize(100, 40);
+        nextShotBt.addActionListener(new IterateGameObjectListener<Shot>(gameWindow, gameWindow.getShots()));
+        gameWindow.add(nextShotBt);
 
-                if (iterator.hasNext()) {
-                    Shot shot = iterator.next();
-                    gameWindow.getPos().setLatitude(shot.getLatitude());
-                    gameWindow.getPos().setLongitude(shot.getLongitude());
-                    gameWindow.repaint();
-                } else {
-                    iterator = null;
-                    if (!gameWindow.getShots().isEmpty()) actionPerformed(e);
-                }
-            }
-        });
-        gameWindow.add(nextBt);
+        nextGamerBt = new JButton("Next gamer");
+        nextGamerBt.setSize(100, 40);
+        nextGamerBt.addActionListener(new IterateGameObjectListener<Gamer>(gameWindow, gameWindow.getGamers()));
+        gameWindow.add(nextGamerBt);
     }
 
     private class PositionMover implements MouseListener, MouseMotionListener {

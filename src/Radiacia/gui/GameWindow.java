@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class GameWindow extends JPanel {
     private GameObject pos;
-    private double altitude = 10000;
+    private double altitude = 500;
 
     private Set<Shot> shots = new HashSet<>();
     private Set<Gamer> gamers = new HashSet<>();
@@ -49,6 +49,7 @@ public class GameWindow extends JPanel {
 
         artist.setGraphics(g);
         drawShots();
+        drawGamers();
 
         //Возвращение начального значения scale
         scale = 1 / scale;
@@ -77,6 +78,13 @@ public class GameWindow extends JPanel {
     private void drawShots() {
         Iterator<Shot> iterator = shots.iterator();
         while (iterator.hasNext()){
+            artist.draw(iterator.next());
+        }
+    }
+
+    private void drawGamers() {
+        Iterator<Gamer> iterator = gamers.iterator();
+        while (iterator.hasNext()) {
             artist.draw(iterator.next());
         }
     }
