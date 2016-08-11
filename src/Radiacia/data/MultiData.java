@@ -7,7 +7,7 @@ import java.io.*;
  *
  * Служит контейнером для нескольких объектов типа Data
  */
-public class MultiData extends Data<Data[]> implements Externalizable {
+public class MultiData<A> extends Data<Data[], A> implements Externalizable {
 
     public MultiData(int dataLength) {
         this.data = new Data[dataLength];

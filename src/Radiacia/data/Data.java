@@ -1,7 +1,5 @@
 package Radiacia.data;
 
-import Radiacia.Client;
-
 import java.io.Serializable;
 
 /**
@@ -11,16 +9,15 @@ import java.io.Serializable;
  *
  * Передаются с помощью механизма сериализации
  */
-public class Data<A extends Serializable> implements Serializable {
-    private Client owner;
+public class Data<A extends Serializable, B> implements Serializable {
+    private transient B owner;
     protected A data;
 
-    //Поле заполняется получателем данных
-    public void setOwner(Client owner) {
+    public void setOwner(B owner) {
         this.owner = owner;
     }
 
-    public Client getOwner() {
+    public B getOwner() {
         return owner;
     }
 

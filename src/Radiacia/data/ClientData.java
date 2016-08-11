@@ -1,12 +1,14 @@
 package Radiacia.data;
 
+import Radiacia.Client;
+
 /**
  * Created by Cntgfy on 24.07.2016.
  *
  * Данные, придназначеные для управления состоянием клиента
  *
  */
-public class ClientData extends Data<Boolean> {
+public class ClientData extends Data<Boolean, Client> {
     public ClientData() {
         data = false;
     }
