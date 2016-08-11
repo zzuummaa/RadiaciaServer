@@ -2,8 +2,6 @@ package guiconsol;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,8 +18,10 @@ public class GUIConsole extends JFrame {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        String str = reader.readLine();
-        System.out.println(str);
+        while (guiConsole.isActive()) {
+            String str = reader.readLine();
+            System.out.println(str);
+        }
     }
 
     private JPanel p;
@@ -44,37 +44,17 @@ public class GUIConsole extends JFrame {
         p = new JPanel();
         add(p);
         createComponents(p);
-
-        addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaint();
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
-        });
     }
 
     private void createComponents(JPanel p) {
         p.setLayout(null);
 
-        ta = associatedTextArea(new JTextArea());
+        ta = new JTextArea();
+        associatedTextArea(ta);
         p.add(ta);
 
-        tf = associatedTextField(new JTextField(1));
+        tf = new JTextField(1);
+        associatedTextField(tf);
         p.add(tf);
 
         repaint();

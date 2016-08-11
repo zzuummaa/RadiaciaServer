@@ -5,10 +5,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Cntgfy on 10.08.2016.
+ *
  */
 public class GUIInputStream extends InputStream {
     private JTextField tf;
@@ -37,16 +37,16 @@ public class GUIInputStream extends InputStream {
 
     public void setTextField(JTextField tf) {
         this.tf = tf;
-        tf.addKeyListener(new TFListener(queue));
+        tf.addKeyListener(new TFListener());
     }
 
+    /*
+     * Слушает данные с консоли gui
+     *
+     * Выбрасывает <code>IOException</code> при нажатии в <code>tf</code> на enter,
+     * если поток, вызвавший конструктор класса GUIInputStream, уже завершил свою работу
+     */
     private class TFListener implements KeyListener {
-        private List<String> queue;
-
-        private TFListener(List<String> queue) {
-            this.queue = queue;
-        }
-
         @Override
         public void keyTyped(KeyEvent e) {
 
@@ -88,17 +88,8 @@ public class GUIInputStream extends InputStream {
             try {
                 while (!isInterrupted()) writeLine(reader.readLine());
             } catch (IOException e) {
-                e.printStackTrace();
+                if (!isInterrupted()) e.printStackTrace();
             }
-        }
-    }
-
-    private void writeFromQueue() throws IOException {
-        synchronized (queue) {
-            while (!queue.isEmpty()) {
-                newOut.write(queue.remove(0).getBytes());
-            }
-            newOut.flush();
         }
     }
 
@@ -108,13 +99,31 @@ public class GUIInputStream extends InputStream {
      * @throws IOException
      */
     private void writeLine(String str) throws IOException {
-        newOut.write( (str + System.lineSeparator()).getBytes() );
+        newOut.write((str + System.lineSeparator()).getBytes());
     }
 
+    /**
+     * Прекращает работать с потоками
+     *
+     * @throws IOException
+     */
     @Override
     public void close() throws IOException {
         listenInThread.interrupt();
-        super.close();
+    }
+
+    /**
+     * Высвобождает ресурсы и прекращает работу
+     * с gui и потоками
+     *
+     * @throws IOException
+     */
+    public void closeAll() throws IOException {
+        close();
+        newIn.close();
+        newOut.close();
+
+        System.setIn(in);
     }
 
     @Override
