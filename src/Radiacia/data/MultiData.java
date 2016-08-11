@@ -1,19 +1,16 @@
 package Radiacia.data;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Created by Cntgfy on 27.07.2016.
  *
  * Служит контейнером для нескольких объектов типа Data
  */
-public class MultiData<A> extends Data<Data[], A> implements Externalizable {
+public class MultiData<A, B> extends Data<A[], B> implements Externalizable {
 
-    public MultiData(int dataLength) {
-        this.data = new Data[dataLength];
-    }
-
-    public MultiData(Data... data) {
+    public MultiData(A... data) {
         this.data = data;
     }
 
@@ -34,10 +31,13 @@ public class MultiData<A> extends Data<Data[], A> implements Externalizable {
         if (in.read() == 0) {
             data = null;
         } else {
-            data = new Data[in.readInt()];
-            for (int i = 0; i < data.length; i++) {
-                data[i] = (Data) in.readObject();
+            int dataLength = in.readInt();
+
+            ArrayList<A> listData = new ArrayList<>(dataLength);
+            for (int i = 0; i < dataLength; i++) {
+                data[i] = (A) in.readObject();
             }
+            data = (A[]) listData.toArray();
         }
     }
 }

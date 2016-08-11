@@ -8,6 +8,9 @@ import java.io.Serializable;
  * Данные, которые могут быть переданы
  *
  * Передаются с помощью механизма сериализации
+ *
+ * <code>A</code> - тип данных
+ * <code>B</code> - тип owner
  */
 public class Data<A extends Serializable, B> implements Serializable {
     private transient B owner;

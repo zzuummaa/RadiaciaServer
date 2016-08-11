@@ -79,7 +79,7 @@ public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOf
     * */
     @Override
     public void shoot(GameObject gameObject) {
-        Shot shoot = new Shot(latitude, longitude, direction, this);
+        Shot shoot = new Shot(this);
         if (shoot.isHit(gameObject)) {
             gameObject.hit();
         }
@@ -111,7 +111,7 @@ public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOf
 
     @Override
     public Shot getShot() {
-        return new Shot(latitude, longitude, direction, this);
+        return new Shot(this);
     }
 
     /*

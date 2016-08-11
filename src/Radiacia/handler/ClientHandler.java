@@ -3,7 +3,6 @@ package Radiacia.handler;
 import Radiacia.data.ClientData;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -11,6 +10,8 @@ import java.util.Iterator;
  * Created by Cntgfy on 27.07.2016.
  *
  * Позволяет выполнять инструкции, предназначенные клиенту
+ *
+ * Сломано
  */
 public class ClientHandler implements Handler<ClientData> {
     public static final String NAME = "Client handler";
@@ -22,39 +23,22 @@ public class ClientHandler implements Handler<ClientData> {
      * @throws IOException
      */
     @Override
-    public synchronized void handle(Collection<ClientData> data) throws IOException{
+    public synchronized void handle(Collection<ClientData> data) {
         Iterator<ClientData> iterator = data.iterator();
 
         while (iterator.hasNext()) {
-            ClientData clientData = iterator.next();
-
-            if (clientData.isDisconnect()) {
-                clientData.getOwner().disconnect();
-                System.out.println(NAME + ": client disconnected");
+            try {
+                handle(iterator.next());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    /**
-     * @throws IOException при неудачном отключении клиента
-     */
-    @Override
-    public void handle() throws IOException{
-        synchronized (dataList) {
-            handle(dataList);
-            dataList.clear();
+    private void handle(ClientData clientData) throws IOException{
+        if (clientData.isDisconnect()) {
+            clientData.getOwner().disconnect();
+            System.out.println(NAME + ": client disconnected");
         }
-    }
-
-    private ArrayList<ClientData> dataList = new ArrayList<>();
-
-    @Override
-    public void add(ClientData clientData) {
-        dataList.add(clientData);
-    }
-
-    @Override
-    public boolean containsNotHandle() {
-        return !dataList.isEmpty();
     }
 }

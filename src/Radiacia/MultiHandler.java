@@ -1,6 +1,5 @@
 package Radiacia;
 
-import Radiacia.data.Data;
 import Radiacia.handler.Handler;
 
 import java.util.Collection;
@@ -15,22 +14,7 @@ public class MultiHandler implements Handler {
     }
 
     @Override
-    public void add(Data data) {
+    public void handle(Collection data) {
 
-    }
-
-    @Override
-    public void handle(Collection data) throws Exception {
-
-    }
-
-    @Override
-    public void handle() throws Exception {
-
-    }
-
-    @Override
-    public boolean containsNotHandle() {
-        return false;
     }
 }
