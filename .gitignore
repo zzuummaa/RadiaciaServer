@@ -1,0 +1,5 @@
+.idea/
+src/Radiacia/Old
+out/production
+out/artifacts
+*.log
