@@ -5,16 +5,16 @@ import Radiacia.Game.Gamer;
 /**
  * Created by Cntgfy on 27.07.2016.
  */
-public class GamerData implements Data{
-    public Gamer gamer;
+public class GamerData extends Data<Gamer>{
+    private Gamer gamer;
 
     @Override
-    public void setOwner(Object owner) {
-
+    public void setData(Gamer data) {
+        this.gamer = data;
     }
 
     @Override
-    public Object getOwner() {
-        return null;
+    public Gamer getData() {
+        return gamer;
     }
 }

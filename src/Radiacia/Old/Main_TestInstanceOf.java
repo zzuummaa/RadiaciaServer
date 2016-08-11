@@ -1,8 +1,5 @@
 package Radiacia.Old;
 
-import Radiacia.data.ClientData;
-import Radiacia.data.Data;
-
 import java.util.Date;
 
 /**
@@ -29,7 +26,7 @@ public class Main_TestInstanceOf {
     }
 
     private static void simpleCheck() {
-        Object object = new ClientData();
+        //Object object = new ClientData();
         //boolean isData = ((Data) object).contains(Data.DATA);
     }
 
@@ -46,7 +43,7 @@ public class Main_TestInstanceOf {
     }
 
     private static void checkInstanceOf() {
-        Object object = new ClientData();
-        boolean isData = object instanceof Data;
+        //Object object = new ClientData();
+        //boolean isData = object instanceof Data;
     }
 }
