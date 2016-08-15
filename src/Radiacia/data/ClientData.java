@@ -9,12 +9,19 @@ import Radiacia.Client;
  *
  */
 public class ClientData extends Data<Boolean, Client> {
+    {
+        data = true;
+    }
+
     public ClientData() {
-        data = false;
     }
 
     public ClientData(boolean isConnected) {
         data = isConnected;
+    }
+
+    public ClientData(ClientData clientData) {
+        super(clientData);
     }
 
     /**

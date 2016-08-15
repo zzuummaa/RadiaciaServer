@@ -38,10 +38,16 @@ public abstract class Handler<A extends Data, B extends Data> {
      * Используется при обработки коллекции
      * @see #handle(java.util.Collection)
      *
-     * @return пустую коллекцию, если данных нет
+     * @return null, если данных нет
      */
     public abstract B handle(A data);
 
+    /**
+     * Возвращает обработанные данные, удаляя ссылку на них
+     *
+     * @return коллекцию выходных данных
+     *         или пусткю коллекцию, если выходных данных нет
+     */
     public Collection<B> getOutData() {
         Collection<B> tmp = outData;
         outData = null;

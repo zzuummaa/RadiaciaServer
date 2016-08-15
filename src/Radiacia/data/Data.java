@@ -13,8 +13,18 @@ import java.io.Serializable;
  * <code>B</code> - тип owner
  */
 public class Data<A extends Serializable, B> implements Serializable {
-    private transient B owner;
+    protected transient B owner;
     protected A data;
+
+    public Data() {
+    }
+
+    public Data(Data<A, B> data) {
+        if (data == null) return;
+
+        this.owner = data.owner;
+        this.data = data.data;
+    }
 
     public void setOwner(B owner) {
         this.owner = owner;
