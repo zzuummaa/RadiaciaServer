@@ -17,8 +17,9 @@ import java.util.Iterator;
 public class ShotHitHandler extends CollectionHandler<ShotData, GamerData> {
     private Collection<GamerData> gamerData;
 
-    public ShotHitHandler() {
-        gamerData = new ArrayList<>();
+    public ShotHitHandler(Collection<GamerData> gamerData) {
+        if (gamerData != null) this.gamerData = gamerData;
+        else                   this.gamerData = new ArrayList<>();
     }
 
     /**
@@ -26,9 +27,7 @@ public class ShotHitHandler extends CollectionHandler<ShotData, GamerData> {
      * @param gamerData данные о игроках
      */
     public ShotHitHandler(Collection<ShotData> shotData, Collection<GamerData> gamerData) {
-        if (gamerData != null) this.gamerData = gamerData;
-        else                   this.gamerData = new ArrayList<>();
-
+        this(gamerData);
         handle(shotData);
     }
 

@@ -14,10 +14,18 @@ public class GameHandler extends CollectionHandler<GamerData, GamerData> {
 
     public GameHandler(Collection<GamerData> gamerData) {
         ish = new InitShotHandler();
-        shh = new ShotHitHandler();
         handle(gamerData);
     }
 
+    @Override
+    public void handle(Collection<GamerData> inData) {
+        shh = new ShotHitHandler(inData);
+        super.handle(inData);
+    }
+
+    /**
+     * Не отлажен
+     */
     @Override
     public GamerData handle(GamerData data) {
         ShotData shotData = ish.handle(data);
