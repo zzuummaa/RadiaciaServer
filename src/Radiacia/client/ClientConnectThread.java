@@ -38,7 +38,7 @@ public class ClientConnectThread extends Thread {
      * Обменивается информацией о подключении
      *
      * Пытается выяснить, какую информацию использовать при подключении
-     * в зависимости от id
+     * Использует полученные данные, если их <code>id != 0</code>
      *
      * @throws IOException
      */
@@ -58,11 +58,7 @@ public class ClientConnectThread extends Thread {
             return;
         }
 
-        if (inData.getId() == 0) {
-            connectData = outCD;
-        } else {
-            connectData = inData;
-        }
+        connectData = inData.getId() == 0 ? outCD : inData;
 
         client.connect();
     }

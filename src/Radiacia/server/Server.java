@@ -1,4 +1,4 @@
-package Radiacia;
+package Radiacia.server;
 
 import Radiacia.client.Client;
 
