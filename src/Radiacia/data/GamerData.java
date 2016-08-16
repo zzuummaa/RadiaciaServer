@@ -7,11 +7,14 @@ import Radiacia.Game.Gamer;
  * Created by Cntgfy on 27.07.2016.
  */
 public class GamerData extends Data<Gamer, Client>{
-    //private Gamer gamer;
-
 
     public GamerData(Gamer data) {
+        this(data, null);
+    }
+
+    public GamerData(Gamer data, Client client) {
         this.data = data;
+        this.setOwner(client);
     }
 
     @Override

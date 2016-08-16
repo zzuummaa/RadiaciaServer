@@ -1,22 +1,23 @@
 package Radiacia.client;
 
 import Radiacia.data.Data;
-import Radiacia.handler.Handler;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by Cntgfy on 16.08.2016.
  *
- * Слушает клиента и передает данные на обработку
+ * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private Handler handler;
+    private LinkedList<Data> dataList;
     private Client client;
 
-    public ClientListenThread(Client client, Handler handler) {
+    public ClientListenThread(Client client) {
         this.client = client;
-        this.handler = handler;
+        this.dataList = new LinkedList();
     }
 
     @Override
@@ -27,10 +28,21 @@ public class ClientListenThread extends Thread {
 
                 if (isInterrupted()) break;
 
-                handler.addInData(data);
+                synchronized (dataList) {
+                    dataList.add(data);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public Collection<Data> getData() {
+        synchronized (dataList) {
+            Collection tmp = dataList;
+            dataList = new LinkedList<>();
+
+            return tmp;
         }
     }
 }

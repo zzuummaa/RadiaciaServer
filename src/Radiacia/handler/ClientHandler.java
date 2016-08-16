@@ -14,6 +14,9 @@ import java.util.Collection;
 public class ClientHandler extends CollectionHandler<ClientData,ClientData> {
     public static final String NAME = "Client handler";
 
+    public ClientHandler() {
+    }
+
     public ClientHandler(Collection<ClientData> clientData) {
         handle(clientData);
     }

@@ -37,10 +37,14 @@ public class ShotHitHandler extends CollectionHandler<ShotData, GamerData> {
         Iterator<GamerData> iterator = gamerData.iterator();
 
         while (iterator.hasNext()) {
-            Gamer gamer = iterator.next().getData();
+            GamerData gamerData = iterator.next();
+            Gamer gamer = gamerData.getData();
             Shot shot = data.getData();
 
-            if (data.getOwner() != gamer && shot.isHit(gamer)) gamer.hit();;
+            if (data.getOwner() != gamer && shot.isHit(gamer)) {
+                gamer.hit();
+                return new GamerData(gamer, gamerData.getOwner());
+            }
         }
 
         return null;

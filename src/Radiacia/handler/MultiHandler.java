@@ -7,6 +7,8 @@ import java.util.Map;
 
 /**
  * Created by Cntgfy on 28.07.2016.
+ *
+ * Не доработан
  */
 public class MultiHandler implements Handler<Data, Data> {
     private Map<Class, CollectionHandler> handlers = new HashMap<>();
@@ -41,5 +43,9 @@ public class MultiHandler implements Handler<Data, Data> {
 
     public void addHandler(CollectionHandler collectionHandler, Class dataClass) {
         handlers.put(dataClass, collectionHandler);
+    }
+
+    public Handler getHandler(int i) {
+        return handlers.get(i);
     }
 }

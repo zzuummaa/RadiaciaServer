@@ -11,16 +11,32 @@ import java.net.Socket;
  * Created by Cntgfy on 16.08.2016.
  */
 public class Main_TestClientThreads {
-    private static SocketClient serverClient;
-
     public static void main(String[] args) throws IOException, InterruptedException {
-        SocketServer server = new SocketServer(new ServerSocket(9090));
+        connect();
+
+    }
+
+    public static void printInfo(ConnectData connectData) {
+        System.out.println("data=" + connectData.getData() + " id=" + connectData.getId());
+    }
+
+    public void listen() throws IOException {
+        SocketServer server = openServer();
+
+
+
+        Client clientClient = new SocketClient(new Socket("localhost", 9090));
+    }
+
+    public static void connect() throws InterruptedException, IOException {
+        SocketServer server = openServer();
+
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    serverClient = server.accept();
+                    SocketClient serverClient = server.accept();
 
                     ClientConnectThread ccth = new ClientConnectThread(serverClient, 1);
                     ccth.start();
@@ -41,9 +57,11 @@ public class Main_TestClientThreads {
         ccth.join();
 
         printInfo(ccth.getConnectData());
+
+        server.close();
     }
 
-    public static void printInfo(ConnectData connectData) {
-        System.out.println("data=" + connectData.getData() + " id=" + connectData.getId());
+    private static SocketServer openServer() throws IOException {
+        return new SocketServer(new ServerSocket(9090));
     }
 }
