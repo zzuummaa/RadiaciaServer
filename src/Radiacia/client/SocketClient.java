@@ -1,6 +1,6 @@
 package Radiacia.client;
 
-import Radiacia.client.Client;
+import Radiacia.data.ClientData;
 import Radiacia.data.Data;
 import sun.security.util.Debug;
 
@@ -60,12 +60,9 @@ public class SocketClient implements Client {
         }
     }
 
-    /**
-     * не поддерживается
-     */
     @Override
     public void connect() throws IOException {
-
+        isConnected = true;
     }
 
     /**
@@ -74,7 +71,7 @@ public class SocketClient implements Client {
     @Override
     public void disconnect() throws IOException {
         try {
-            write(new Data());
+            write(new ClientData(false));
         } catch (IOException e) {
             Debug.println("client", "can't write disconnect message to socket");
         } finally {
