@@ -1,5 +1,7 @@
 package Radiacia;
 
+import Radiacia.client.SocketClient;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 

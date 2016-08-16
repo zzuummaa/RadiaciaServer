@@ -1,5 +1,6 @@
 package Radiacia;
 
+import Radiacia.client.Client;
 import Radiacia.data.MultiData;
 
 import java.io.IOException;

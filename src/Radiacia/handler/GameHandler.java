@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * Created by Cntgfy on 11.08.2016.
  */
-public class GameHandler extends Handler<GamerData, GamerData> {
+public class GameHandler extends CollectionHandler<GamerData, GamerData> {
     private InitShotHandler ish;
     private ShotHitHandler shh;
 

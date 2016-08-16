@@ -11,7 +11,7 @@ import java.util.Collection;
  * Позволяет выполнять инструкции, предназначенные клиенту
  *
  */
-public class ClientHandler extends Handler<ClientData,ClientData> {
+public class ClientHandler extends CollectionHandler<ClientData,ClientData> {
     public static final String NAME = "Client handler";
 
     public ClientHandler(Collection<ClientData> clientData) {

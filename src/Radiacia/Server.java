@@ -1,5 +1,7 @@
 package Radiacia;
 
+import Radiacia.client.Client;
+
 import java.io.IOException;
 
 /**

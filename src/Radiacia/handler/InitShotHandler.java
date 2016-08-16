@@ -11,7 +11,7 @@ import java.util.Collection;
  *
  * Инициализирует выстрелы игроков
  */
-public class InitShotHandler extends Handler<GamerData,ShotData> {
+public class InitShotHandler extends CollectionHandler<GamerData,ShotData> {
     private Collection<ShotData> shotData;
 
     public InitShotHandler() {

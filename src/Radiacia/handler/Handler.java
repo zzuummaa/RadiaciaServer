@@ -2,56 +2,37 @@ package Radiacia.handler;
 
 import Radiacia.data.Data;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 /**
- * Created by Cntgfy on 27.07.2016.
+ * Created by Cntgfy on 16.08.2016.
  *
  * Реализует обработку данных
  *
  * <code>A</code> - входные данные
  * <code>B</code> - выходные данные
  */
-public abstract class Handler<A extends Data, B extends Data> {
-    private Collection<B> outData;
-
-    /**
-     * Обрабатывает вохдную коллекцию данных, составляя выходную
-     */
-    public void handle(Collection<A> inData) {
-        if (inData == null) return;
-
-        Iterator<A> iterator = inData.iterator();
-        outData = new ArrayList<>();
-
-        while (iterator.hasNext()) {
-            B data = handle(iterator.next());
-            if (data != null) outData.add(data);
-        }
-    }
-
+public interface Handler<A extends Data, B extends Data> {
     /**
      * Обрабатывает входные данные, возвращая выходные
      *
-     * Используется при обработки коллекции
-     * @see #handle(java.util.Collection)
-     *
      * @return null, если данных нет
      */
-    public abstract B handle(A data);
+    public B handle(A data);
 
     /**
-     * Возвращает обработанные данные, удаляя ссылку на них
+     * Добавляет данные для последующей обработки
      *
-     * @return коллекцию выходных данных
-     *         или пусткю коллекцию, если выходных данных нет
+     * @param data
      */
-    public Collection<B> getOutData() {
-        Collection<B> tmp = outData;
-        outData = null;
+    public void addInData(A data);
 
-        return tmp == null ? new ArrayList<>() : tmp;
-    }
+    /**
+     * @return обработанный элемент
+     */
+    public B getOutData();
+
+    /**
+     * Обрабатывает данные, добавленные с помощью <code>addInData(A data)</code>
+     * @see #addInData(Radiacia.data.Data)
+     */
+    public void handle();
 }

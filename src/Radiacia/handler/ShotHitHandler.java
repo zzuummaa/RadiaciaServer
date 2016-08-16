@@ -14,7 +14,7 @@ import java.util.Iterator;
  *
  * Проверяет, в кого попали выстрелы
  */
-public class ShotHitHandler extends Handler<ShotData, GamerData> {
+public class ShotHitHandler extends CollectionHandler<ShotData, GamerData> {
     private Collection<GamerData> gamerData;
 
     public ShotHitHandler() {
