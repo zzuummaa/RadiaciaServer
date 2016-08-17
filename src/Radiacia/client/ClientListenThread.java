@@ -1,6 +1,7 @@
 package Radiacia.client;
 
 import Radiacia.data.Data;
+import Radiacia.data.datamanager.DataClassifier;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -12,7 +13,8 @@ import java.util.LinkedList;
  * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private LinkedList<Data> dataList;
+    private DataClassifier dc;
+    private Collection<Data> dataList;
     private Client client;
 
     public ClientListenThread(Client client) {
@@ -20,6 +22,11 @@ public class ClientListenThread extends Thread {
         this.dataList = new LinkedList();
 
         start();
+    }
+
+    public ClientListenThread(DataClassifier dc, Client client) {
+        this(client);
+        this.dc = dc;
     }
 
     @Override
@@ -44,8 +51,15 @@ public class ClientListenThread extends Thread {
 
     public Collection<Data> getData() {
         synchronized (dataList) {
-            Collection tmp = dataList;
-            dataList = new LinkedList<>();
+            Collection<Data> tmp;
+
+            if (dc != null) {
+                tmp = dc.parseFromClient(dataList);
+                dc.reset();
+            } else {
+                tmp = dataList;
+                dataList = new LinkedList<>();
+            }
 
             return tmp;
         }
