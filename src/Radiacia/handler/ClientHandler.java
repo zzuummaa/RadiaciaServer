@@ -1,6 +1,7 @@
 package Radiacia.handler;
 
 import Radiacia.data.ClientData;
+import Radiacia.data.GamerData;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -35,5 +36,25 @@ public class ClientHandler extends CollectionHandler<ClientData,ClientData> {
         }
 
         return new ClientData(clientData);
+    }
+
+    /**
+     * Записывает состояние игрока, если он умер
+     *
+     * @param gamerData
+     * @return
+     */
+    public GamerData handle(GamerData gamerData) {
+        if (gamerData == null) return null;
+
+        if (!gamerData.getData().isALive()) {
+            try {
+                gamerData.getOwner().write(gamerData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new GamerData(gamerData.getData(), gamerData.getOwner());
     }
 }

@@ -10,9 +10,19 @@ import java.util.LinkedList;
  * Created by Cntgfy on 16.08.2016.
  *
  * Разбирает коллекцию данных и передает в данные в handler
+ *
+ * Инструкция по применению:
+ * 1. Собираем коллекции клиентов
+ * @see #parseFromClient(java.util.Collection)
+ * 2. Разбираем свои данные
+ * @see #parseSelf()
+ * 3. Перезапускаем класс
+ * @see #reset()
  */
 public abstract class AbstractDataManager {
     private Collection<Data> parsedData;
+
+    public abstract void parseFromClient(Collection<Data> data);
 
     public Collection<Data> parse(Collection<Data> dataCollection) {
         parsedData = new LinkedList<>();
@@ -26,5 +36,9 @@ public abstract class AbstractDataManager {
         return parsedData;
     }
 
+    public abstract void parseSelf();
+
     public abstract void parse(Data data);
+
+    public abstract void reset();
 }

@@ -16,28 +16,32 @@ import java.util.Map;
 public class GameServer {
     private SocketServer socketServer;
 
-    private ClientDataManager clientDataManager;
-    private GameDataManager gameDataManager;
+    private ClientDataManager cdm;
+    private GameDataManager gdm;
+    private UpdateManagersThread upmth;
 
-    private ServerListenThread serverListenThread;
+    private ServerListenThread slth;
 
     public GameServer() throws IOException {
         this.socketServer = new SocketServer(new ServerSocket(9090));
-        this.clientDataManager = new ClientDataManager();
-        this.gameDataManager = new GameDataManager();
-        this.serverListenThread = new ServerListenThread(socketServer, true);
+
+        this.cdm = new ClientDataManager();
+        this.gdm = new GameDataManager();
+        this.upmth = new UpdateManagersThread(true, cdm, gdm);
+
+        this.slth = new ServerListenThread(socketServer, true);
     }
 
     public Map<Long, Client> getClients() {
-        return serverListenThread.getClients();
+        return slth.getClients();
     }
 
     public Client getClient(Long id) {
-        return serverListenThread.getClients().get(id);
+        return slth.getClients().get(id);
     }
 
     public void close() throws IOException {
-        this.serverListenThread.interrupt();
+        this.slth.interrupt();
         this.socketServer.close();
     }
 }
