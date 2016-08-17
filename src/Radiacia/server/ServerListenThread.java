@@ -38,6 +38,16 @@ public class ServerListenThread extends Thread {
         }
     }
 
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        try {
+            clientManager.disconnectAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ClientManager getClientManager() {
         return clientManager;
     }

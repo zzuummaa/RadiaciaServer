@@ -6,9 +6,7 @@ import Radiacia.client.ClientListenThread;
 import Radiacia.data.ConnectData;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Cntgfy on 17.08.2016.
@@ -72,5 +70,31 @@ public class ClientManager {
         ids.remove(client);
         clients.remove(id).disconnect();
         clientListenThreads.remove(client).interrupt();
+    }
+
+    public void disconnectAll() throws IOException{
+        Iterator<Long> iterator = ids.values().iterator();
+
+        List<IOException> exceptions = new LinkedList<>();
+
+        while (iterator.hasNext())
+        try {
+            disconnect(iterator.next());
+        } catch (IOException e) {
+            exceptions.add(e);
+        }
+
+        if (!exceptions.isEmpty()) throwIOException(exceptions);
+    }
+
+    private void throwIOException(List<IOException> exceptions) throws IOException {
+        StringBuffer msg = new StringBuffer(System.lineSeparator());
+
+        Iterator<IOException> ioIterator = exceptions.iterator();
+        for (int i = 0; ioIterator.hasNext(); i++) {
+            msg.append("msg №").append(i).append(ioIterator.next().getMessage()).append(System.lineSeparator());
+        }
+
+        throw new IOException(msg.toString());
     }
 }
