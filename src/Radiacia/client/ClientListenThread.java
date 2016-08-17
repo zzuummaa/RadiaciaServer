@@ -18,6 +18,8 @@ public class ClientListenThread extends Thread {
     public ClientListenThread(Client client) {
         this.client = client;
         this.dataList = new LinkedList();
+
+        start();
     }
 
     @Override
@@ -32,7 +34,10 @@ public class ClientListenThread extends Thread {
                     dataList.add(data);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                if (!isInterrupted()) {
+                    e.printStackTrace();
+                    interrupt();
+                }
             }
         }
     }

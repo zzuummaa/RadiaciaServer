@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * Позволяет собирать данные клиентов и преобразовывать их в выходные данные
  *
  * Инструкция по применению:
- * 1. Собираем данные
+ * 1. Собираем коллекции клиентов
  * @see #parseFromClient(java.util.Collection)
  * 2. Разбираем свои данные
  * @see #parseSelf()
@@ -69,11 +69,6 @@ public class GameDataManager extends AbstractDataManager {
     public void parseSelf() {
         shh = new ShotHitHandler(gamerData);
         shh.handle(shotData);
-    }
-
-    @Override
-    public Collection<Data> parse(Collection<Data> dataCollection) {
-        return super.parse(dataCollection);
     }
 
     @Override

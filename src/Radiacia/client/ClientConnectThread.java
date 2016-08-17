@@ -3,6 +3,7 @@ package Radiacia.client;
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
 import Radiacia.data.Data;
+import Radiacia.server.ClientManager;
 
 import java.io.IOException;
 
@@ -16,6 +17,8 @@ public class ClientConnectThread extends Thread {
     private long id;
     private Client client;
 
+    private ClientManager clientManager;
+
     public ClientConnectThread(Client client) {
         this(client, 0);
     }
@@ -23,6 +26,11 @@ public class ClientConnectThread extends Thread {
     public ClientConnectThread(Client client, long id) {
         this.client = client;
         this.id = id;
+    }
+
+    public ClientConnectThread(Client client, ClientManager clientManager, long id) {
+        this(client, id);
+        this.clientManager = clientManager;
     }
 
     @Override
@@ -43,24 +51,39 @@ public class ClientConnectThread extends Thread {
      * @throws IOException
      */
     protected void tryToConnect() throws IOException {
+        ConnectData outCD = writeConnectData();
+        ConnectData inCD = readConnectData(client);
+
+        connectData = inCD.getId() == 0 ? outCD : inCD;
+        connectData.setOwner(client);
+
+        client.connect();
+
+        if (clientManager != null) {
+            clientManager.put(this);
+
+        }
+    }
+
+    private ConnectData writeConnectData() throws IOException {
         ConnectData outCD = new ConnectData();
         outCD.setId(id);
         outCD.setData(new ClientData(true));
 
         client.write(outCD);
 
-        ConnectData inData;
+        return outCD;
+    }
+
+    private ConnectData readConnectData(Client client) throws IOException {
+        ConnectData inData = null;
         Data tmp = client.read();
+
         if (tmp instanceof ConnectData) {
             inData = (ConnectData) tmp;
-            inData.setOwner(client);
-        } else {
-            return;
         }
 
-        connectData = inData.getId() == 0 ? outCD : inData;
-
-        client.connect();
+        return inData;
     }
 
     public boolean isSuccess() {
