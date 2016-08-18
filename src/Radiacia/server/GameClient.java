@@ -5,8 +5,10 @@ import Radiacia.client.ClientListenThread;
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
 import Radiacia.eventlisteners.DataListener;
+import Radiacia.eventlisteners.GameClientListener;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by Cntgfy on 18.08.2016.
@@ -16,6 +18,7 @@ import java.io.IOException;
 public class GameClient {
     private ConnectData conD;;
     private ClientListenThread clth;
+    private Collection<DataListener> listeners;
 
     public GameClient(Client client) {
         this.conD = new ConnectData();
@@ -65,7 +68,20 @@ public class GameClient {
         if (this.conD.getOwner() != cd.getOwner()) return;
 
         this.conD = new ConnectData(cd);
-
         conD.getOwner().connect();
+
+        if (listeners == null) {
+            clth.addListener(new GameClientListener());
+        } else {
+            clth.setListeners(listeners);
+            listeners = null;
+        }
+    }
+
+    public void close() throws IOException {
+        clth.interrupt();
+        conD.getOwner().disconnect();
+
+        clth = null;
     }
 }

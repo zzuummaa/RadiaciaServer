@@ -1,36 +1,51 @@
 package Radiacia.handler;
 
-import Radiacia.data.GamerData;
+import Radiacia.Game.Gamer;
 import Radiacia.data.ShotData;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
- * Created by Cntgfy on 11.08.2016.
+ * Created by Cntgfy on 18.08.2016.
  */
-public class GameHandler extends CollectionHandler<GamerData, GamerData> {
-    private InitShotHandler ish;
-    private ShotHitHandler shh;
+public class GameHandler {
+    private Collection<Gamer> gamers;
+    private Collection<ShotData> shots;
 
-    public GameHandler(Collection<GamerData> gamerData) {
-        ish = new InitShotHandler();
-        handle(gamerData);
+    public GameHandler(Collection<Gamer> gamers) {
+        this.gamers = gamers;
+        handle();
     }
 
-    @Override
-    public void handle(Collection<GamerData> inData) {
-        shh = new ShotHitHandler(inData);
-        super.handle(inData);
+    public void handle() {
+        initShots();
+
+        Iterator<Gamer> gi = gamers.iterator();
+        while (gi.hasNext()) checkHits(gi.next());
     }
 
-    /**
-     * Не отлажен
-     */
-    @Override
-    public GamerData handle(GamerData data) {
-        ShotData shotData = ish.handle(data);
-        GamerData gamerData = shh.handle(shotData);
+    public void initShots() {
+        shots = new LinkedList<>();
 
-        return gamerData;
+        Iterator<Gamer> iterator = gamers.iterator();
+        while (iterator.hasNext()) {
+            Gamer gamer = iterator.next();
+
+            if (gamer.isShoot() && gamer.isALive()) {
+                shots.add(new ShotData(gamer));
+            }
+        }
+    }
+
+    public void checkHits(Gamer gamer) {
+        Iterator<ShotData> shi = shots.iterator();
+
+        while (shi.hasNext()) {
+            ShotData shD = shi.next();
+
+            if (shD.getOwner() != gamer && shD.getData().isHit(gamer)) gamer.hit();
+        }
     }
 }

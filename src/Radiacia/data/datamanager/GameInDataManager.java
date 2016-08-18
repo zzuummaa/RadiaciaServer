@@ -4,8 +4,8 @@ import Radiacia.client.ClientListenThread;
 import Radiacia.data.Data;
 import Radiacia.data.GamerData;
 import Radiacia.data.ShotData;
-import Radiacia.handler.InitShotHandler;
-import Radiacia.handler.ShotHitHandler;
+import Radiacia.handler.old.InitShotHandler;
+import Radiacia.handler.old.ShotHitHandler;
 
 import java.util.Collection;
 import java.util.Iterator;

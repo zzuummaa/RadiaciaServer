@@ -2,7 +2,6 @@ package Radiacia.eventlisteners;
 
 import Radiacia.client.Client;
 import Radiacia.data.ClientData;
-import Radiacia.data.ConnectData;
 import Radiacia.data.Data;
 
 /**
@@ -21,16 +20,7 @@ public abstract class ClientDataListener implements DataListener {
             data.setOwner(client);
             onClientData((ClientData) data);
         }
-        if (data instanceof ConnectData) {
-            data.setOwner(client);
-            onConnect((ConnectData) data);
-        }
     }
-
-    /**
-     * Приходит, когда клиент хочет подключиться
-     */
-    public abstract void onConnect(ConnectData cd);
 
     public abstract void onClientData(ClientData clientData);
 }

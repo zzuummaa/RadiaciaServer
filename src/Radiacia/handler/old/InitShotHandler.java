@@ -1,8 +1,9 @@
-package Radiacia.handler;
+package Radiacia.handler.old;
 
 import Radiacia.Game.Gamer;
 import Radiacia.data.GamerData;
 import Radiacia.data.ShotData;
+import Radiacia.handler.CollectionHandler;
 
 import java.util.Collection;
 

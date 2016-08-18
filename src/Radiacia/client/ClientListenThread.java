@@ -60,4 +60,12 @@ public class ClientListenThread extends Thread {
     public void addListener(DataListener dl) {
         listeners.add(dl);
     }
+
+    public synchronized void setListeners(Collection<DataListener> listeners) {
+        this.listeners = listeners;
+    }
+
+    public Collection<DataListener> getListeners() {
+        return listeners;
+    }
 }
