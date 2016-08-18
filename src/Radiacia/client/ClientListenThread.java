@@ -4,9 +4,9 @@ import Radiacia.data.Data;
 import Radiacia.eventlisteners.DataListener;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Created by Cntgfy on 16.08.2016.
@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private Collection<DataListener> listeners;
+    private Set<DataListener> listeners;
     private Client client;
 
     private ClientListenThread() {
@@ -29,7 +29,7 @@ public class ClientListenThread extends Thread {
         super("ClientListenThread");
         this.client = client;
 
-        this.listeners = new LinkedList<>();
+        this.listeners = new HashSet<>();
         if (listeners != null) {
             for (int i = 0; i < listeners.length; i++) {
                 this.listeners.add(listeners[i]);
@@ -63,11 +63,15 @@ public class ClientListenThread extends Thread {
         listeners.add(dl);
     }
 
-    public synchronized void setListeners(Collection<DataListener> listeners) {
+    public boolean removeListener(DataListener dl) {
+        return listeners.remove(dl);
+    }
+
+    public synchronized void setListeners(Set<DataListener> listeners) {
         this.listeners = listeners;
     }
 
-    public Collection<DataListener> getListeners() {
+    public Set<DataListener> getListeners() {
         return listeners;
     }
 }

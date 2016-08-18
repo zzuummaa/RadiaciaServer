@@ -15,8 +15,8 @@ import java.io.IOException;
  * Обновляет состояние игрока
  */
 public class ClientGamer extends Gamer {
-    private GameClient gc;
-    private GamerListener gl;
+    private transient GameClient gc;
+    private transient GamerListener gl;
 
     public ClientGamer(GameClient gc) {
         this.gc = gc;
@@ -51,5 +51,9 @@ public class ClientGamer extends Gamer {
             e.printStackTrace();
             isCatchIO = true;
         }
+    }
+
+    public void close() {
+        gc.getListenerThread().removeListener(gl);
     }
 }

@@ -9,7 +9,7 @@ import Radiacia.eventlisteners.DataListener;
 import Radiacia.eventlisteners.GameClientListener;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by Cntgfy on 18.08.2016.
@@ -19,7 +19,7 @@ import java.util.Collection;
 public class GameClient {
     private ConnectData conD;;
     private ClientListenThread clth;
-    private Collection<DataListener> tmpListeners;
+    private Set<DataListener> tmpListeners;
 
     public GameClient(Client client) {
         this(client, null);

@@ -34,7 +34,9 @@ public class GameHandler {
             Gamer gamer = iterator.next();
 
             if (gamer.isShoot() && gamer.isALive()) {
-                shots.add(new ShotData(gamer));
+                ShotData sd = new ShotData(gamer);
+                shots.add(sd);
+                System.out.println("new shot: " + sd.getData());
             }
         }
     }
@@ -45,7 +47,10 @@ public class GameHandler {
         while (shi.hasNext()) {
             ShotData shD = shi.next();
 
-            if (shD.getOwner() != gamer && shD.getData().isHit(gamer)) gamer.hit();
+            if (shD.getOwner() != gamer && shD.getData().isHit(gamer)) {
+                gamer.hit();
+                System.out.println("gamer hit: " + gamer);
+            }
         }
     }
 }

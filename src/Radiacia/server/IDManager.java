@@ -45,7 +45,7 @@ public class IDManager {
         Iterator<Long> iterator = ids.iterator();
         while (iterator.hasNext()) {
             long id = iterator.next();
-            if (id > nextId) nextId = id+1;
+            if (id >= nextId) nextId = id+1;
         }
 
         return nextId;

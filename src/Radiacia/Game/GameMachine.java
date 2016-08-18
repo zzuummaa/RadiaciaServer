@@ -26,6 +26,7 @@ public class GameMachine extends Thread {
     }
 
     public GameMachine(Collection<Gamer> gamers, int fps, boolean startNow) {
+        super("GameMachine");
         this.gamers = gamers;
         this.fps = fps;
 
@@ -38,7 +39,7 @@ public class GameMachine extends Thread {
 
         try {
             while (!isInterrupted()) {
-                Thread.sleep(fps/1000);
+                Thread.sleep(1000 / fps);
 
                 if (gf.isAlive()) continue;
 
@@ -51,11 +52,13 @@ public class GameMachine extends Thread {
 
     private class GameFrame extends Thread {
         public GameFrame() {
+            super("GameMachine");
             start();
         }
 
         @Override
         public void run() {
+
             synchronized (gamers) {
                 if (gamers == null) return;
 

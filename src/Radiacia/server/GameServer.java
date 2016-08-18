@@ -29,10 +29,10 @@ public class GameServer {
     }
 
     public void close() throws IOException {
+        closeClients();
+
         this.slth.interrupt();
         this.socketServer.close();
-
-        closeClients();
     }
 
     public GameServerListenThread getSlth() {
