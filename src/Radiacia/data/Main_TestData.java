@@ -12,7 +12,7 @@ public class Main_TestData {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(byteOut);
 
-        GamerData gData = new GamerData();
+        GamerData gData = new GamerData(new Gamer());
         gData.setData(new Gamer("TestGamer"));
         System.out.println(gData.getData());
         out.writeObject(gData);

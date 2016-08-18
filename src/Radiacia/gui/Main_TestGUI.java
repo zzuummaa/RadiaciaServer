@@ -10,10 +10,10 @@ import java.util.ArrayList;
  */
 public class Main_TestGUI {
     public static void main(String[] args) {
-        RadiaciaServerGUI serverGUI = new RadiaciaServerGUI();
+        final RadiaciaServerGUI serverGUI = new RadiaciaServerGUI();
         GameWindow gameWindow = serverGUI.gameWindow;
 
-        ArrayList<Shot> shots = new ArrayList<>();
+        final ArrayList<Shot> shots = new ArrayList<>();
         shots.add(new Shot(50, 50, 0));
 
         ArrayList<Gamer> gamers = new ArrayList<>();
