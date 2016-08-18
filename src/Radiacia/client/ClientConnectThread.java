@@ -19,11 +19,16 @@ public class ClientConnectThread extends Thread {
 
     private ClientManager clientManager;
 
+    public ClientConnectThread() {
+        super("ClientConnectThread");
+    }
+
     public ClientConnectThread(Client client) {
         this(client, 0);
     }
 
     public ClientConnectThread(Client client, long id) {
+        this();
         this.client = client;
         this.id = id;
     }

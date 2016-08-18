@@ -31,11 +31,11 @@ public class Main_TestClientManager {
         socketServer.close();
     }
 
-    private static void connectClient(Client client) {
+    public static void connectClient(Client client) {
         new ClientConnectThread(client).start();
     }
 
-    private static void printClients(Map<Long, Client> clients) {
+    public static void printClients(Map<Long, Client> clients) {
         Set<Long> ids = clients.keySet();
 
         for(Long id: ids) {

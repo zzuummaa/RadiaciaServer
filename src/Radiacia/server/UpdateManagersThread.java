@@ -14,20 +14,25 @@ import java.util.LinkedList;
  * Снимает данные клиентов и передает их в менеджеры
  */
 public class UpdateManagersThread extends Thread {
-    private Collection<AbstractDataManager> dms;
+    private Collection<AbstractDataManager> dmc;
 
     private ClientManager clientManager;
 
-    public UpdateManagersThread(AbstractDataManager... dms) {
-        this.dms = new LinkedList<>();
+    protected UpdateManagersThread() {
+        super("UpdateManagerThread");
+    }
 
-        for (int i = 0; i < dms.length; i++) {
-            this.dms.add(dms[i]);
+    public UpdateManagersThread(AbstractDataManager... dmc) {
+        this();
+        this.dmc = new LinkedList<>();
+
+        for (int i = 0; i < dmc.length; i++) {
+            this.dmc.add(dmc[i]);
         }
     }
 
-    public UpdateManagersThread(boolean startNow, AbstractDataManager... dms) {
-        this(dms);
+    public UpdateManagersThread(boolean startNow, AbstractDataManager... dmc) {
+        this(dmc);
         if (startNow) start();
     }
 
@@ -44,12 +49,13 @@ public class UpdateManagersThread extends Thread {
      * @param clientManager содержит клиентов, данные которых будут сняты
      */
     private void parseData(ClientManager clientManager) {
+        if (clientManager == null) return;
+
         synchronized (clientManager) {
-            if (clientManager == null) return;
-
             Iterator<Client> iterator = clientManager.getClients().values().iterator();
-
             while (iterator.hasNext()) parseFromClients(clientManager.getData(iterator.next()));
+
+            parseSelf();
         }
     }
 
@@ -59,10 +65,23 @@ public class UpdateManagersThread extends Thread {
      * @param data коллекция клиента
      */
     private void parseFromClients(Collection<Data> data) {
-        Iterator<AbstractDataManager> dmIterator = dms.iterator();
+        Iterator<AbstractDataManager> dmIterator = dmc.iterator();
 
         while (dmIterator.hasNext()) {
             dmIterator.next().parseFromClient(data);
+        }
+    }
+
+    /**
+     * Обрабатывает данные внутри менеджеров, сбрасывая входные данные
+     */
+    private void parseSelf() {
+        Iterator<AbstractDataManager> dmIterator = dmc.iterator();
+        while (dmIterator.hasNext()) {
+            AbstractDataManager dm = dmIterator.next();
+
+            dm.parseSelf();
+            dm.reset();
         }
     }
 

@@ -14,7 +14,12 @@ public class ServerListenThread extends Thread {
     private Server server;
     private ClientManager clientManager;
 
+    protected ServerListenThread() {
+        super("ServerListenThread");
+    }
+
     public ServerListenThread(Server server) {
+        this();
         this.server = server;
         this.clientManager = new ClientManager(this);
     }

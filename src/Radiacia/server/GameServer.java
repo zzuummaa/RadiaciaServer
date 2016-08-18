@@ -25,11 +25,12 @@ public class GameServer {
     public GameServer() throws IOException {
         this.socketServer = new SocketServer(new ServerSocket(9090));
 
+        this.slth = new ServerListenThread(socketServer, true);
+
         this.cdm = new ClientDataManager();
         this.gdm = new GameDataManager();
         this.upmth = new UpdateManagersThread(true, cdm, gdm);
-
-        this.slth = new ServerListenThread(socketServer, true);
+        this.upmth.setClientManager(slth.getClientManager());
     }
 
     public Map<Long, Client> getClients() {

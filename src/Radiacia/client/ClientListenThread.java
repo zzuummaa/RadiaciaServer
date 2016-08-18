@@ -1,10 +1,11 @@
 package Radiacia.client;
 
 import Radiacia.data.Data;
-import Radiacia.data.datamanager.DataClassifier;
+import Radiacia.eventlisteners.DataListener;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -13,20 +14,27 @@ import java.util.LinkedList;
  * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private DataClassifier dc;
-    private Collection<Data> dataList;
+    private Collection<DataListener> listeners;
     private Client client;
 
+    protected ClientListenThread() {
+        super("ClientListenThread");
+    }
+
     public ClientListenThread(Client client) {
+        this();
         this.client = client;
-        this.dataList = new LinkedList();
+        this.listeners = new LinkedList<>();
 
         start();
     }
 
-    public ClientListenThread(DataClassifier dc, Client client) {
+    public ClientListenThread(Client client, DataListener... listeners) {
         this(client);
-        this.dc = dc;
+
+        for (int i = 0; i < listeners.length; i++) {
+            this.listeners.add(listeners[i]);
+        }
     }
 
     @Override
@@ -37,31 +45,15 @@ public class ClientListenThread extends Thread {
 
                 if (isInterrupted()) break;
 
-                synchronized (dataList) {
-                    dataList.add(data);
-                }
+                Iterator<DataListener> iterator = listeners.iterator();
+                while (iterator.hasNext()) iterator.next().initEvent(data);
+
             } catch (IOException e) {
                 if (!isInterrupted()) {
                     e.printStackTrace();
                     interrupt();
                 }
             }
-        }
-    }
-
-    public Collection<Data> getData() {
-        synchronized (dataList) {
-            Collection<Data> tmp;
-
-            if (dc != null) {
-                tmp = dc.parseFromClient(dataList);
-                dc.reset();
-            } else {
-                tmp = dataList;
-                dataList = new LinkedList<>();
-            }
-
-            return tmp;
         }
     }
 }

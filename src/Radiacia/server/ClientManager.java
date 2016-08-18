@@ -4,7 +4,6 @@ import Radiacia.client.Client;
 import Radiacia.client.ClientConnectThread;
 import Radiacia.client.ClientListenThread;
 import Radiacia.data.ConnectData;
-import Radiacia.data.datamanager.DataClassifier;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,16 +46,12 @@ public class ClientManager {
         synchronized (cd) {
             clients.put(cd.getId(), cd.getOwner());
             ids.put(cd.getOwner(), cd.getId());
-            clientListenThreads.put(cd.getOwner(), new ClientListenThread(new DataClassifier(), cd.getOwner()));
+            clientListenThreads.put(cd.getOwner(), new ClientListenThread(cd.getOwner()));
         }
     }
 
     public Client getClient(Long id) {
         return clients.get(id);
-    }
-
-    public Collection getData(Client client) {
-        return clientListenThreads.get(client).getData();
     }
 
     public Map<Long, Client> getClients() {
