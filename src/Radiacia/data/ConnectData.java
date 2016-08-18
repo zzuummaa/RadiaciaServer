@@ -12,6 +12,12 @@ public class ConnectData extends Data<ClientData, Client> {
         data = new ClientData(true);
     }
 
+    public ConnectData(ConnectData cd) {
+        this.id = cd.getId();
+        this.data = new ClientData(cd.getData());
+        this.owner = cd.getOwner();
+    }
+
     public long getId() {
         return id;
     }
@@ -23,6 +29,6 @@ public class ConnectData extends Data<ClientData, Client> {
     @Override
     public void setOwner(Client owner) {
         super.setOwner(owner);
-        this.owner = owner;
+        this.data.setOwner(owner);
     }
 }

@@ -56,4 +56,8 @@ public class ClientListenThread extends Thread {
             }
         }
     }
+
+    public void addListener(DataListener dl) {
+        listeners.add(dl);
+    }
 }

@@ -3,7 +3,10 @@ package Radiacia.server;
 import Radiacia.client.Client;
 import Radiacia.client.ClientConnectThread;
 import Radiacia.client.ClientListenThread;
+import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
+import Radiacia.eventlisteners.ClientDataListener;
+import Radiacia.handler.ClientHandler;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,7 +32,7 @@ public class ClientManager {
     }
 
     public void connect(Client client) {
-        new ClientConnectThread(client, this, idManager.incID()).start();
+        new ClientListenThread(client, new ClientManagerListener(client));
     }
 
     public synchronized void put(ClientConnectThread clientConnectThread) throws IOException {
@@ -56,6 +59,10 @@ public class ClientManager {
 
     public Map<Long, Client> getClients() {
         return clients;
+    }
+
+    public Map<Client, ClientListenThread> getClientListenThreads() {
+        return clientListenThreads;
     }
 
     public synchronized void disconnect(Long id) throws IOException {
@@ -92,5 +99,27 @@ public class ClientManager {
         }
 
         throw new IOException(msg.toString());
+    }
+
+    private class ClientManagerListener extends ClientDataListener {
+
+        public ClientManagerListener(Client client) {
+            super(client);
+        }
+
+        @Override
+        public void onConnect(ConnectData cd) {
+            try {
+                put(cd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onClientData(ClientData clientData) {
+            ClientHandler clientHandler = new ClientHandler();
+            clientHandler.handle(clientData);
+        }
     }
 }

@@ -1,5 +1,9 @@
 package Radiacia.server;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Created by Cntgfy on 23.07.2016.
  *
@@ -8,28 +12,53 @@ package Radiacia.server;
  * version 0.1
  */
 public class IDManager {
-    private volatile long maxId;
+    private volatile Set<Long> ids;
+    private volatile long minValue;
 
     public IDManager() {
-        this.maxId = 0;
+        this.ids = new HashSet<>();
+        this.minValue = 1;
     }
 
-    public IDManager(long beginID) {
-        this.maxId = beginID;
+    public IDManager(Long minValue) {
+        this.minValue = minValue;
+    }
+
+    public IDManager(Set<Long> ids) {
+        this.ids = ids;
     }
 
     /**
-     * @return свободный id
+     * Возвращает свободный id и резервирует его
+     *
+     * @return Следующий свободный id
      */
-    public synchronized long incID() {
-        return ++maxId;
+    public synchronized Long getNextID() {
+        Long nextId = countNextId();
+        ids.add(nextId);
+        return nextId;
     }
 
-    public synchronized long decID() {
-        return --maxId;
+    private long countNextId() {
+        long nextId = minValue;
+
+        Iterator<Long> iterator = ids.iterator();
+        while (iterator.hasNext()) {
+            long id = iterator.next();
+            if (id > nextId) nextId = id+1;
+        }
+
+        return nextId;
     }
 
-    public synchronized Long getID() {
-        return maxId;
+    public boolean contains(Long id) {
+        return ids.contains(id);
+    }
+
+    /**
+     * Делает id доступным для использования
+     */
+    public void remove(Long id) {
+        ids.remove(id);
     }
 }
