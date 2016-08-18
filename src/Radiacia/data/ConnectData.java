@@ -1,21 +1,18 @@
 package Radiacia.data;
 
-import Radiacia.client.Client;
-
 /**
  * Created by Cntgfy on 16.08.2016.
  */
-public class ConnectData extends Data<ClientData, Client> {
+public class ConnectData extends ClientData {
     private long id;
 
     public ConnectData() {
-        data = new ClientData(true);
+        super();
     }
 
     public ConnectData(ConnectData cd) {
+        super(cd);
         this.id = cd.getId();
-        this.data = new ClientData(cd.getData());
-        this.owner = cd.getOwner();
     }
 
     public long getId() {
@@ -24,11 +21,5 @@ public class ConnectData extends Data<ClientData, Client> {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    @Override
-    public void setOwner(Client owner) {
-        super.setOwner(owner);
-        this.data.setOwner(owner);
     }
 }

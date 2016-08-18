@@ -17,24 +17,26 @@ public class ClientListenThread extends Thread {
     private Collection<DataListener> listeners;
     private Client client;
 
-    protected ClientListenThread() {
-        super("ClientListenThread");
+    private ClientListenThread() {
+        this(null, null);
     }
 
     public ClientListenThread(Client client) {
-        this();
-        this.client = client;
-        this.listeners = new LinkedList<>();
-
-        start();
+        this(client, null);
     }
 
     public ClientListenThread(Client client, DataListener... listeners) {
-        this(client);
+        super("ClientListenThread");
+        this.client = client;
 
-        for (int i = 0; i < listeners.length; i++) {
-            this.listeners.add(listeners[i]);
+        this.listeners = new LinkedList<>();
+        if (listeners != null) {
+            for (int i = 0; i < listeners.length; i++) {
+                this.listeners.add(listeners[i]);
+            }
         }
+
+        start();
     }
 
     @Override

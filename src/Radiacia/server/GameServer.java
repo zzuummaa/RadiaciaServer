@@ -11,36 +11,21 @@ import java.util.*;
  */
 public class GameServer {
     private SocketServer socketServer;
-    private Collection<GameClient> gameClients;
     private GameServerListenThread slth;
+    private AccountService as;
 
     public GameServer() throws IOException {
         this.socketServer = new SocketServer(new ServerSocket(9090));
-        this.slth = new GameServerListenThread(socketServer, gameClients, true);
-        this.gameClients = new LinkedList<>();
+        this.slth = new GameServerListenThread(socketServer, true);
+        this.as = slth.getAccountService();
     }
 
     public Map<Long, GameClient> getClients() {
-        Iterator<GameClient> iterator = slth.getClients().iterator();
-
-        Map<Long, GameClient> gameClients = new HashMap<>();
-        while (iterator.hasNext()) {
-            GameClient gc = iterator.next();
-            gameClients.put(gc.getId(), gc);
-        }
-
-        return gameClients;
+        return new HashMap<>(as.getClients());
     }
 
     public GameClient getClient(Long id) {
-        Iterator<GameClient> iterator = slth.getClients().iterator();
-
-        while (iterator.hasNext()) {
-            GameClient gc = iterator.next();
-            if ( id.equals(gc.getId()) ) return gc;
-        }
-
-        return null;
+        return as.getClients().get(id);
     }
 
     public void close() throws IOException {
@@ -50,8 +35,12 @@ public class GameServer {
         closeClients();
     }
 
+    public GameServerListenThread getSlth() {
+        return slth;
+    }
+
     public void closeClients() throws IOException {
-        Iterator<GameClient> iterator = slth.getClients().iterator();
+        Iterator<GameClient> iterator = as.getClients().values().iterator();
 
         while (iterator.hasNext()) {
             iterator.next().close();

@@ -1,35 +1,41 @@
 package Radiacia.eventlisteners;
 
-import Radiacia.client.Client;
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
-import Radiacia.data.Data;
+import Radiacia.server.AccountService;
 import Radiacia.server.GameClient;
-import Radiacia.server.IDManager;
 
 import java.io.IOException;
 
 /**
  * Created by Cntgfy on 18.08.2016.
  */
-public class GameConnectListener implements DataListener {
-    private IDManager idManager;
+public class ConnectListener extends ClientDataListener {
     private GameClient gameClient;
-    private Client client;
+    private AccountService accountService;
 
-    public GameConnectListener(GameClient gameClient, IDManager idManager) {
+    public ConnectListener(GameClient gameClient) {
+        this(gameClient, null);
+    }
+
+    public ConnectListener(GameClient gameClient, AccountService accountService) {
+        super(gameClient.getClient());
         this.gameClient = gameClient;
-        this.client = gameClient.getClient();
+        this.accountService = accountService;
     }
 
     @Override
-    public void initEvent(Data data) {
-        if (data instanceof ConnectData) onConnect((ConnectData) data);
+    public void initClientEvent(ClientData cd) {
+        if (cd instanceof ConnectData) onConnect((ConnectData) cd);
     }
 
     public void onConnect(ConnectData cd) {
         try {
             tryToConnect(cd);
+
+            if(accountService != null) accountService.connect(gameClient);
+
+            System.out.println("connect: " + gameClient);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,22 +50,7 @@ public class GameConnectListener implements DataListener {
      * @throws java.io.IOException
      */
     protected void tryToConnect(ConnectData inCD) throws IOException {
-        ConnectData outCD = new ConnectData();
-        outCD.setData(new ClientData(true));
-
-        Long id = idManager.getNextID();
-        outCD.setId(id);
-
-        ConnectData connectData;
-        if (inCD.getId() != 0 && idManager.contains(inCD.getId())) {
-            connectData = inCD;
-        } else {
-            connectData = outCD;
-        }
-
-        connectData.setOwner(client);
-
-        gameClient.connect(connectData);
+        gameClient.setConD(inCD);
     }
 
     private void setInfo() {

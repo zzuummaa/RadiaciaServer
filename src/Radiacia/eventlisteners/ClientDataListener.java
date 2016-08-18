@@ -18,9 +18,9 @@ public abstract class ClientDataListener implements DataListener {
     public void initEvent(Data data) {
         if (data instanceof ClientData) {
             data.setOwner(client);
-            onClientData((ClientData) data);
+            initClientEvent((ClientData) data);
         }
     }
 
-    public abstract void onClientData(ClientData clientData);
+    public abstract void initClientEvent(ClientData cd);
 }

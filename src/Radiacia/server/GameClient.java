@@ -4,6 +4,7 @@ import Radiacia.client.Client;
 import Radiacia.client.ClientListenThread;
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
+import Radiacia.eventlisteners.ConnectListener;
 import Radiacia.eventlisteners.DataListener;
 import Radiacia.eventlisteners.GameClientListener;
 
@@ -18,13 +19,21 @@ import java.util.Collection;
 public class GameClient {
     private ConnectData conD;;
     private ClientListenThread clth;
-    private Collection<DataListener> listeners;
+    private Collection<DataListener> tmpListeners;
 
     public GameClient(Client client) {
-        this.conD = new ConnectData();
+        this(client, null);
+    }
 
+    public GameClient(Client client, AccountService accountService) {
+        this.conD = new ConnectData();
         this.conD.setOwner(client);
-        this.clth = new ClientListenThread(client);
+
+        if (accountService != null) {
+            this.clth = new ClientListenThread(client, new ConnectListener(this, accountService));
+        } else {
+            this.clth = new ClientListenThread(client, new ConnectListener(this));
+        }
     }
 
     public void addListener(DataListener listener) {
@@ -55,6 +64,14 @@ public class GameClient {
         return new ClientData(conD.getData());
     }
 
+    public void setConD(ConnectData conD) {
+        this.conD = conD;
+    }
+
+    public void connect() throws IOException {
+        conD.getOwner().write(conD);
+    }
+
     /**
      * Соединяет клиента, когда договор об используемом id
      * уже составлен
@@ -70,11 +87,11 @@ public class GameClient {
         this.conD = new ConnectData(cd);
         conD.getOwner().connect();
 
-        if (listeners == null) {
+        if (tmpListeners == null) {
             clth.addListener(new GameClientListener());
         } else {
-            clth.setListeners(listeners);
-            listeners = null;
+            clth.setListeners(tmpListeners);
+            tmpListeners = null;
         }
     }
 

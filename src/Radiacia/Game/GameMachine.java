@@ -14,12 +14,22 @@ public class GameMachine extends Thread {
     private int fps;
 
     public GameMachine() {
-        this.fps = 2;
+        this(null, 0, false);
+    }
+
+    public GameMachine(int fps) {
+        this(null, fps, false);
     }
 
     public GameMachine(Collection<Gamer> gamers) {
-        this();
+        this(gamers, 0, false);
+    }
+
+    public GameMachine(Collection<Gamer> gamers, int fps, boolean startNow) {
         this.gamers = gamers;
+        this.fps = fps;
+
+        if (startNow) start();
     }
 
     @Override
@@ -46,12 +56,18 @@ public class GameMachine extends Thread {
 
         @Override
         public void run() {
-            GameHandler gameHandler = new GameHandler(gamers);
+            synchronized (gamers) {
+                if (gamers == null) return;
+
+                GameHandler gameHandler = new GameHandler(gamers);
+            }
         }
     }
 
     public void setGamers(Collection<Gamer> gamers) {
-        this.gamers = gamers;
+        synchronized (gamers) {
+            this.gamers = gamers;
+        }
     }
 
     public void setFps(int fps) {

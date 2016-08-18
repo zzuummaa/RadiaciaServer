@@ -1,38 +1,31 @@
 package Radiacia.server;
 
-import Radiacia.eventlisteners.GameConnectListener;
-
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Created by Cntgfy on 18.08.2016.
  */
 public class GameServerListenThread extends Thread {
     private Server server;
-    private Collection<GameClient> gameClients;
-    private IDManager idManager;
+    private AccountService accountService;
 
-    public GameServerListenThread(Server server, Collection<GameClient> gameClients) {
-        this(server, gameClients, false);
+    public GameServerListenThread(Server server) {
+        this(server, false);
     }
 
-    public GameServerListenThread(Server server, Collection<GameClient> gameClients, boolean startNow) {
+    public GameServerListenThread(Server server, boolean startNow) {
+        super("GameServerListenThread");
         this.server = server;
-        this.gameClients = gameClients;
-        this.idManager = new IDManager();
+        this.accountService = new AccountService();
+
+        if (startNow) start();
     }
 
     @Override
     public void run() {
         while (!isInterrupted()) {
             try {
-                GameClient gameClient = new GameClient(server.accept());
-
-                if (isInterrupted()) return;
-
-                gameClient.addListener(new GameConnectListener(gameClient, idManager));
-                gameClients.add(gameClient);
+                GameClient gameClient = new GameClient(server.accept(), accountService);
             } catch (IOException e) {
                 if (!isInterrupted()) {
                     e.printStackTrace();
@@ -46,7 +39,7 @@ public class GameServerListenThread extends Thread {
         super.interrupt();
     }
 
-    public Collection<GameClient> getClients() {
-        return gameClients;
+    public AccountService getAccountService() {
+        return accountService;
     }
 }
