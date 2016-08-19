@@ -1,60 +1,60 @@
 package Radiacia.handler;
 
 import Radiacia.data.ClientData;
+import Radiacia.data.GamerData;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Created by Cntgfy on 27.07.2016.
  *
  * Позволяет выполнять инструкции, предназначенные клиенту
+ *
  */
-public class ClientHandler implements Handler<ClientData> {
+public class ClientHandler extends CollectionHandler<ClientData,ClientData> {
     public static final String NAME = "Client handler";
 
-    /**
-     * Отключает клиента, если в его данных содержится эта инструкция
-     *
-     * @param data
-     * @throws IOException
-     */
+    public ClientHandler() {
+    }
+
+    public ClientHandler(Collection<ClientData> clientData) {
+        handle(clientData);
+    }
+
     @Override
-    public synchronized void handle(Collection<ClientData> data) throws IOException{
-        Iterator<ClientData> iterator = data.iterator();
+    public ClientData handle(ClientData clientData) {
+        if (clientData == null) return null;
 
-        while (iterator.hasNext()) {
-            ClientData clientData = iterator.next();
-
-            if (clientData.isDisconnect()) {
+        if (clientData.isDisconnect()) {
+            try {
                 clientData.getOwner().disconnect();
                 System.out.println(NAME + ": client disconnected");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+
+        return new ClientData(clientData);
     }
 
     /**
-     * @throws IOException при неудачном отключении клиента
+     * Записывает состояние игрока, если он умер
+     *
+     * @param gamerData
+     * @return
      */
-    @Override
-    public void handle() throws IOException{
-        synchronized (dataList) {
-            handle(dataList);
-            dataList.clear();
+    public GamerData handle(GamerData gamerData) {
+        if (gamerData == null) return null;
+
+        if (!gamerData.getData().isALive()) {
+            try {
+                gamerData.getOwner().write(gamerData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
-    private ArrayList<ClientData> dataList = new ArrayList<>();
-
-    @Override
-    public void add(ClientData clientData) {
-        dataList.add(clientData);
-    }
-
-    @Override
-    public boolean containsNotHandle() {
-        return !dataList.isEmpty();
+        return new GamerData(gamerData.getData(), gamerData.getOwner());
     }
 }

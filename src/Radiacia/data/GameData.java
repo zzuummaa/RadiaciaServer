@@ -1,18 +1,13 @@
 package Radiacia.data;
 
+import Radiacia.Game.Gamer;
+import Radiacia.Game.Shot;
+
 /**
- * Created by Cntgfy on 27.07.2016.
+ * Created by Cntgfy on 11.08.2016.
+ *
+ * Что я курил, я так и не понял
  */
-public class GameData implements Data {
-    public GamerData gamerData;
+public class GameData extends MultiData<Gamer, Shot> {
 
-    @Override
-    public void setOwner(Object owner) {
-
-    }
-
-    @Override
-    public Object getOwner() {
-        return null;
-    }
 }

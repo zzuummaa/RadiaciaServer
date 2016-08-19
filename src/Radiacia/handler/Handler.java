@@ -2,39 +2,37 @@ package Radiacia.handler;
 
 import Radiacia.data.Data;
 
-import java.util.Collection;
-
 /**
- * Created by Cntgfy on 27.07.2016.
+ * Created by Cntgfy on 16.08.2016.
  *
  * Реализует обработку данных
+ *
+ * <code>A</code> - входные данные
+ * <code>B</code> - выходные данные
  */
-public interface Handler<A extends Data> {
+public interface Handler<A extends Data, B extends Data> {
     /**
-     * добавляет данные для будущей обработки
-     */
-    public void add(A a);
-
-    /**
-     * Обрабатывает вохдную коллекцию данных, составляя выходную
-     */
-    public void handle(Collection<A> data) throws Exception;
-
-    /**
-     * Обрабатывает входящие данные
+     * Обрабатывает входные данные, возвращая выходные
      *
-     * Если вы для вызова метода используете <code>HandlerThread</code>
-     * со стандартной реализацией <code>run()</code>, то помните,
-     * что <code>HandlerThread</code></code> не обрабатывает исклчюения,
-     * а только выводит сообщения о них
-     * @see Radiacia.handler.Handler
+     * @return null, если данных нет
      */
-    public void handle() throws Exception;
+    public B handle(A data);
 
     /**
-     * @return есть ли необработаные данные
-     *         true - есть
-     *         false - нету
+     * Добавляет данные для последующей обработки
+     *
+     * @param data
      */
-    public boolean containsNotHandle();
+    public void addInData(A data);
+
+    /**
+     * @return обработанный элемент
+     */
+    public B getOutData();
+
+    /**
+     * Обрабатывает данные, добавленные с помощью <code>addInData(A data)</code>
+     * @see #addInData(Radiacia.data.Data)
+     */
+    public void handle();
 }

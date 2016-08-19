@@ -7,11 +7,38 @@ import java.io.Serializable;
  *
  * Данные, которые могут быть переданы
  *
- * version 0.5
+ * Передаются с помощью механизма сериализации
+ *
+ * <code>A</code> - тип данных
+ * <code>B</code> - тип owner
  */
-public interface Data<A> extends Serializable {
-    //Поле заполняется получателем данных
-    public void setOwner(A owner);
+public class Data<A extends Serializable, B> implements Serializable {
+    protected transient B owner;
+    protected A data;
 
-    public A getOwner();
+    public Data() {
+    }
+
+    public Data(Data<A, B> data) {
+        if (data == null) return;
+
+        this.owner = data.owner;
+        this.data = data.data;
+    }
+
+    public void setOwner(B owner) {
+        this.owner = owner;
+    }
+
+    public B getOwner() {
+        return owner;
+    }
+
+    public void setData(A data) {
+        this.data = data;
+    }
+
+    public A getData() {
+        return data;
+    }
 }

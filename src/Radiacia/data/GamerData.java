@@ -1,20 +1,29 @@
 package Radiacia.data;
 
+import Radiacia.client.Client;
 import Radiacia.Game.Gamer;
 
 /**
  * Created by Cntgfy on 27.07.2016.
  */
-public class GamerData implements Data{
-    public Gamer gamer;
+public class GamerData extends Data<Gamer, Client>{
 
-    @Override
-    public void setOwner(Object owner) {
+    public GamerData(Gamer data) {
+        this(data, null);
+    }
 
+    public GamerData(Gamer data, Client client) {
+        this.data = data;
+        this.setOwner(client);
     }
 
     @Override
-    public Object getOwner() {
-        return null;
+    public void setData(Gamer data) {
+        this.data = data;
+    }
+
+    @Override
+    public Gamer getData() {
+        return data;
     }
 }

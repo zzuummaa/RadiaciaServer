@@ -13,9 +13,6 @@ public class Shot extends GameObject {
     //Радиус попадания
     private float size = 9f;
 
-    //Хозяин выстрела
-    private final GameObject owner;
-
     CoordinateConversion3D cc3 = new CoordinateConversion3D();
     CoordinateConversion2D cc2 = new CoordinateConversion2D();
 
@@ -24,57 +21,46 @@ public class Shot extends GameObject {
      */
     private double[] position;
 
+    public Shot(GameObject gameObject) {
+        super(gameObject);
+        this.position = cc3.position(latitude, longitude);
+    }
+
+    public Shot(Gamer gamer) {
+        super(gamer);
+        this.size = gamer.getAccuracy();
+        this.position = cc3.position(latitude, longitude);
+    }
+
     /*
-    * direction в градусах [-180; 180]
-    * */
+     * direction в градусах [-180; 180]
+     * */
     public Shot(double latitude, double longitude, float direction) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.direction = direction;
-        this.owner = new GameObject();
-
+        super(latitude, longitude, direction);
         this.position = cc3.position(latitude, longitude);
     }
 
-    /*
-    * direction в градусах [-180; 180]
-    * owner объект, который произвел выстрел
-    * */
-    public Shot(double latitude, double longitude, float direction, GameObject owner) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.direction = direction;
-        this.owner = owner;
-
-        this.position = cc3.position(latitude, longitude);
-    }
-
-    /*
-    * direction в градусах [-180; 180]
-    * size радиус попадания
-    * */
-    public Shot(double latitude, double longitude, float direction, GameObject owner, float size) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.direction = direction;
+    /**
+     * @param direction в градусах [-180; 180]
+     * @param size радиус попадания
+     */
+    public Shot(double latitude, double longitude, float direction, float size) {
+        super(latitude, longitude, direction);
         this.size = size;
-        this.owner = owner;
-
         this.position = cc3.position(latitude, longitude);
     }
 
-    //Радиус Земли в метрах
-    private static final int EARTH_RADIUS = 6371 * 1000;
-
-    /*
-    * Проверяем, попал ли выстрел в игрока gamer
-    *
-    * Метод еще не работает
-    * */
-    public boolean isHit(GameObject gameObject) {
-        //Если gameObject стреляет сам в себя
-        if (gameObject == owner) return false;
-
+    /**
+     * Проверяем, попал ли выстрел в игрока gamer
+     *
+     * Метод еще не работает
+     *
+     * @param gameObject объект, в который пытаемся попасть
+     * @param accuracy точность определения положения объекта
+     * @return true - попал
+     *         false- не попал
+     */
+     public boolean isHit(GameObject gameObject, float accuracy) {
         //Угол поворота выстрела
         float direction1 = direction;
 
@@ -91,23 +77,15 @@ public class Shot extends GameObject {
         return Math.abs(direction1 - direction2) < deltaAngle;
     }
 
+    public boolean isHit(GameObject gameObject) {
+        return isHit(gameObject, size);
+    }
+
     public boolean isHit(Gamer gamer) {
-        size = gamer.getAccuracy();
-        return isHit((GameObject) gamer);
+        return isHit(gamer, gamer.getAccuracy());
     }
 
     public double[] getPosition() {
         return position;
-    }
-
-    @Override
-    public String toString() {
-        String string = "";
-        if (owner instanceof Gamer) string = "ownerName=" + ((Gamer) owner).getName();
-        else                        string = "ownerName=";
-
-        string += super.toString();
-
-        return string;
     }
 }
