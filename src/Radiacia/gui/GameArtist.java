@@ -54,12 +54,12 @@ public class GameArtist {
     }
 
     /**
-     * Вычисляет положния объекта на плоскости рисования
+     * Вычисляет положние объекта по отношению
+     * к позиции pos
      *
      * @param go объект, позицию которого ищем
-     * @return позиция:
-     *         pos[0] - x
-     *         pos[1] - y
+     * @return позиция: [0] - x
+     *                  [1] - y
      */
     public int[] posGameObject(GameObject go) {
         double distanceBetween = cc3.distanceBetween(pos.getLatitude(), pos.getLongitude(), go.getLatitude(), go.getLongitude());

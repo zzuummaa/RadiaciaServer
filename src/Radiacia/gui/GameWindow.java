@@ -10,8 +10,13 @@ import java.util.*;
 
 /**
  * Created by Cntgfy on 07.08.2016.
+ *
+ * Управляет отображением игровых объектов на панель
  */
 public class GameWindow extends JPanel {
+    /**
+     * Положение камеры на карте
+     */
     private GameObject pos;
     private double altitude = 500;
 
@@ -23,6 +28,10 @@ public class GameWindow extends JPanel {
 
         pos = new GameObject(0, 0, 0f);
         artist = new GameArtist(null, pos);
+
+        PositionMover positionMover = new PositionMover(this);
+        addMouseMotionListener(positionMover);
+        addMouseListener(positionMover);
     }
 
     GameArtist artist;
@@ -103,7 +112,7 @@ public class GameWindow extends JPanel {
         g.drawString("altitude: " + (long) altitude, beginX, beginY + deltaY*3);
     }
 
-    public void design(Graphics g) {
+    private void design(Graphics g) {
         g.drawLine(0, 0, getWidth(), 0);
     }
 

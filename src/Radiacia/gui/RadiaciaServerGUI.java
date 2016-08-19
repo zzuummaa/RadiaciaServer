@@ -2,19 +2,20 @@ package Radiacia.gui;
 
 import Radiacia.game.Gamer;
 import Radiacia.game.Shot;
-import Radiacia.math.CoordinateConversion3D;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 /**
  * Created by Cntgfy on 08.08.2016.
+ *
+ * Фрейм отображающий положение игроков на мировой карте
  */
 public class RadiaciaServerGUI extends JFrame {
     //Величина на которую умножается текущая высота над поверхностью Земли, при прокрутке колесика
     private double scroll = 0.1d;
-
-    private static final CoordinateConversion3D cc3 = new CoordinateConversion3D();
 
     public GameWindow gameWindow;
     private JButton nextShotBt;
@@ -26,19 +27,23 @@ public class RadiaciaServerGUI extends JFrame {
 
     public RadiaciaServerGUI() {
         super("Radiacia server GUI");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(getToolkit().getScreenSize());
-        setVisible(true);
+        addScrolling();
+
+        nextShotBt = new JButton("Next shot");
+        nextGamerBt = new JButton("Next gamer");
 
         gameWindow = new GameWindow();
-        add(gameWindow);
+        addGameWindow(gameWindow);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+        setVisible(true);
+    }
 
+    /**
+     * Добавляет возможность масштабировать карту колесиком мыши
+     */
+    private void addScrolling() {
         addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
@@ -49,84 +54,27 @@ public class RadiaciaServerGUI extends JFrame {
                 }
             }
         });
+    }
 
-        PositionMover positionMover = new PositionMover();
-        gameWindow.addMouseMotionListener(positionMover);
-        gameWindow.addMouseListener(positionMover);
+    /**
+     * Добавляет игровое окно с кнопками к фрейму
+     */
+    private void addGameWindow(GameWindow gameWindow) {
+        gameWindow.setSize(getSize());
+        addNextBts(gameWindow);
+        add(gameWindow);
+    }
 
-        nextShotBt = new JButton("Next shot");
-        nextShotBt.setSize(100, 40);
+    /**
+     * Добавляет кнопки перехода по игровым объектам к игровому окну
+     */
+    private void addNextBts(GameWindow gameWindow) {
+        //nextShotBt.setSize(100, 40);
         nextShotBt.addActionListener(new IterateGameObjectListener<Shot>(gameWindow, gameWindow.getShots()));
         gameWindow.add(nextShotBt);
 
-        nextGamerBt = new JButton("Next gamer");
-        nextGamerBt.setSize(100, 40);
+        //nextGamerBt.setSize(100, 40);
         nextGamerBt.addActionListener(new IterateGameObjectListener<Gamer>(gameWindow, gameWindow.getGamers()));
         gameWindow.add(nextGamerBt);
-    }
-
-    private class PositionMover implements MouseListener, MouseMotionListener {
-        int x;
-        int y;
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            double dMetersX = e.getX() - x;
-            double dMetersY = e.getY() - y;
-
-            //System.out.println("delta x in pics:  " + dMetersX);
-            //System.out.println("delta y in pics:  " + dMetersY);
-
-            dMetersX = gameWindow.realMeters(dMetersX);
-            dMetersY = gameWindow.realMeters(dMetersY);
-
-            double newLongitude = gameWindow.getPos().getLongitude();
-            newLongitude += cc3.deltaLongitude(dMetersX);
-
-            double newLatitude = gameWindow.getPos().getLatitude();
-            newLatitude += cc3.deltaLatitude(newLongitude, dMetersY);
-
-            gameWindow.getPos().setLatitude(newLatitude);
-            gameWindow.getPos().setLongitude(newLongitude);
-
-            x = e.getX();
-            y = e.getY();
-
-            gameWindow.repaint();
-
-            //System.out.println("delta x in meters " + dMetersX);
-            //System.out.println("delta y in meters " + dMetersY);
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            x = e.getX();
-            y = e.getY();
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
     }
 }
