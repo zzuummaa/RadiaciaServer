@@ -1,4 +1,4 @@
-package Radiacia.Game;
+package Radiacia.game;
 
 import Radiacia.math.CoordinateConversion2D;
 import Radiacia.math.CoordinateConversion3D;

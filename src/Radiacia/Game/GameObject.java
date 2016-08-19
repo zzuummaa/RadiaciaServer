@@ -1,4 +1,4 @@
-package Radiacia.Game;
+package Radiacia.game;
 
 import java.io.Serializable;
 

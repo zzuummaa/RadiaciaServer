@@ -1,7 +1,7 @@
 package Radiacia.data;
 
-import Radiacia.client.Client;
-import Radiacia.Game.Gamer;
+import Radiacia.server.client.Client;
+import Radiacia.game.Gamer;
 
 /**
  * Created by Cntgfy on 27.07.2016.

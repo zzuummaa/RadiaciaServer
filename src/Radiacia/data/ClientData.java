@@ -1,6 +1,6 @@
 package Radiacia.data;
 
-import Radiacia.client.Client;
+import Radiacia.server.client.Client;
 
 /**
  * Created by Cntgfy on 24.07.2016.

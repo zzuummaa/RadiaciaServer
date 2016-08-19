@@ -1,6 +1,6 @@
 package Radiacia.data;
 
-import Radiacia.Game.Gamer;
+import Radiacia.game.Gamer;
 
 import java.io.*;
 

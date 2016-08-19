@@ -1,8 +1,8 @@
 package Radiacia.gui;
 
-import Radiacia.Game.GameObject;
-import Radiacia.Game.Gamer;
-import Radiacia.Game.Shot;
+import Radiacia.game.GameObject;
+import Radiacia.game.Gamer;
+import Radiacia.game.Shot;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package Radiacia.gui;
 
-import Radiacia.Game.Gamer;
-import Radiacia.Game.Shot;
+import Radiacia.game.Gamer;
+import Radiacia.game.Shot;
 
 import java.util.ArrayList;
 

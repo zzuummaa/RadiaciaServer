@@ -1,6 +1,6 @@
 package Radiacia.server;
 
-import Radiacia.client.Client;
+import Radiacia.server.client.Client;
 
 import java.io.IOException;
 

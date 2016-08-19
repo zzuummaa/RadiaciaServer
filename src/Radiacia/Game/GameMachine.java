@@ -1,6 +1,6 @@
-package Radiacia.Game;
+package Radiacia.game;
 
-import Radiacia.handler.GameHandler;
+import Radiacia.game.handler.GameHandler;
 
 import java.util.Collection;
 

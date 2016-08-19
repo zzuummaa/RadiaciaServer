@@ -1,4 +1,4 @@
-package Radiacia.Game;
+package Radiacia.game;
 
 /**
  * Created by Cntgfy on 12.07.2016.

@@ -1,6 +1,6 @@
 package Radiacia.gui;
 
-import Radiacia.Game.GameObject;
+import Radiacia.game.GameObject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

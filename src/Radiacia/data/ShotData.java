@@ -1,7 +1,7 @@
 package Radiacia.data;
 
-import Radiacia.Game.Gamer;
-import Radiacia.Game.Shot;
+import Radiacia.game.Gamer;
+import Radiacia.game.Shot;
 
 /**
  * Created by Cntgfy on 11.08.2016.
