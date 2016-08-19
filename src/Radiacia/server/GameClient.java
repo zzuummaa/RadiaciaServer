@@ -4,7 +4,7 @@ import Radiacia.client.Client;
 import Radiacia.client.ClientListenThread;
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
-import Radiacia.eventlisteners.ConnectListener;
+import Radiacia.eventlisteners.GameClientConnectListener;
 import Radiacia.eventlisteners.DataListener;
 import Radiacia.eventlisteners.GameClientListener;
 
@@ -30,9 +30,9 @@ public class GameClient {
         this.conD.setOwner(client);
 
         if (accountService != null) {
-            this.clth = new ClientListenThread(client, new ConnectListener(this, accountService));
+            this.clth = new ClientListenThread(client, new GameClientConnectListener(this, accountService));
         } else {
-            this.clth = new ClientListenThread(client, new ConnectListener(this));
+            this.clth = new ClientListenThread(client, new GameClientConnectListener(this));
         }
     }
 
