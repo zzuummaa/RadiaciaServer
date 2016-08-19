@@ -15,7 +15,7 @@ import java.io.IOException;
  * Обновляет состояние игрока
  */
 public class ClientGamer extends Gamer {
-    private transient GameClient gc;
+    private transient volatile GameClient gc;
     private transient GamerListener gl;
 
     public ClientGamer(GameClient gc) {

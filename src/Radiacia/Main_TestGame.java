@@ -4,7 +4,6 @@ import Radiacia.Game.GameMachine;
 import Radiacia.Game.Gamer;
 import Radiacia.client.Client;
 import Radiacia.client.SocketClient;
-import Radiacia.data.GamerData;
 import Radiacia.server.GameClient;
 import Radiacia.server.GameServer;
 
@@ -23,12 +22,13 @@ public class Main_TestGame extends Thread {
         gameServer = new GameServer();
 
         GameMachine gameMachine = new GameMachine(1);
-        gameMachine.setGamers( new ClientsGamers(gameServer.getSlth().getAccountService()) );
+        ClientsGamers clientsGamers = new ClientsGamers(gameServer.getSlth().getAccountService());
+        gameMachine.setGamers(clientsGamers);
         gameMachine.start();
 
         GameClient gc1 = connect();
         GameClient gc2 = connect();
-        Thread.sleep(20);
+        Thread.sleep(30);
 
         sendShootGamer(gc1);
 
@@ -44,9 +44,8 @@ public class Main_TestGame extends Thread {
     }
 
     public static void sendShootGamer(GameClient gameClient) throws IOException {
-        Gamer gamer = new Gamer();
+        Gamer gamer = new ClientGamer(gameClient);
         gamer.setIsShoot(true);
-        gameClient.getClient().write(new GamerData(gamer));
     }
 
     public static GameClient connect() throws IOException {

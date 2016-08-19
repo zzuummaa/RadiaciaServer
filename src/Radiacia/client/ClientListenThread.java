@@ -1,6 +1,7 @@
 package Radiacia.client;
 
 import Radiacia.data.Data;
+import Radiacia.data.GamerData;
 import Radiacia.eventlisteners.DataListener;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.Set;
  * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private Set<DataListener> listeners;
+    private volatile Set<DataListener> listeners;
     private Client client;
 
     private ClientListenThread() {
@@ -46,10 +47,14 @@ public class ClientListenThread extends Thread {
                 Data data = client.read();
 
                 if (isInterrupted()) break;
+                if (data instanceof GamerData) {
+                    System.out.println("Gamer data!!!");
+                }
 
-                Iterator<DataListener> iterator = listeners.iterator();
-                while (iterator.hasNext()) iterator.next().initEvent(data);
-
+                synchronized (listeners) {
+                    Iterator<DataListener> iterator = listeners.iterator();
+                    while (iterator.hasNext()) iterator.next().initEvent(data);
+                }
             } catch (IOException e) {
                 if (!isInterrupted()) {
                     e.printStackTrace();
@@ -59,11 +64,13 @@ public class ClientListenThread extends Thread {
         }
     }
 
-    public void addListener(DataListener dl) {
-        listeners.add(dl);
+    public synchronized void addListener(DataListener dl) {
+        synchronized (listeners) {
+            listeners.add(dl);
+        }
     }
 
-    public boolean removeListener(DataListener dl) {
+    public synchronized boolean removeListener(DataListener dl) {
         return listeners.remove(dl);
     }
 

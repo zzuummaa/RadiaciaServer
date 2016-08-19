@@ -32,7 +32,7 @@ public class SocketClient implements Client {
         out.writeObject(data);
         out.flush();
 
-        System.out.println("client: write data");
+        //System.out.println("client: write data");
     }
 
     private static final String READ_EXCEPTION_MESSAGE = "reading object isn't instance of Data";
@@ -48,7 +48,7 @@ public class SocketClient implements Client {
             Object obj = in.readObject();
 
             if (obj instanceof Data) {
-                System.out.println("client: read data");
+                //System.out.println("client: read data");
                 return (Data) obj;
             }
             else throw new IOException(READ_EXCEPTION_MESSAGE);

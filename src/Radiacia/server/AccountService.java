@@ -1,10 +1,10 @@
 package Radiacia.server;
 
 import Radiacia.data.ConnectData;
+import Radiacia.eventlisteners.ConnectListener;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Cntgfy on 18.08.2016.
@@ -13,7 +13,8 @@ import java.util.Map;
  */
 public class AccountService {
     private IDManager idManager;
-    private Map<Long, GameClient> clients;
+    private volatile Map<Long, GameClient> clients;
+    private volatile Collection<ConnectListener> ccl;
 
     public AccountService() {
         this(new IDManager());
@@ -22,6 +23,7 @@ public class AccountService {
     public AccountService(IDManager idManager) {
         this.idManager = idManager;
         this.clients = new HashMap<>();
+        this.ccl = new LinkedList<>();
     }
 
     /**
@@ -39,6 +41,8 @@ public class AccountService {
         ConnectData cd = getServiceConnectData(gc);
 
         if (cd != null) connect(gc, cd);
+
+        initConnectEvent(cd);
     }
 
     /**
@@ -73,5 +77,27 @@ public class AccountService {
 
     public Map<Long, GameClient> getClients() {
         return clients;
+    }
+
+    /**
+     * Добавляет слушатель подключений данного AccountService
+     */
+    public void addConnectListener(ConnectListener cl) {
+        this.ccl.add(cl);
+    }
+
+    /**
+     * Удаляет слушатель подключений данного AccountService
+     */
+    public void removeConnectListener(ConnectListener cl) {
+        this.ccl.remove(cl);
+    }
+
+    /**
+     * Инициализирует события подключения к данному AccountService
+     */
+    private void initConnectEvent(ConnectData cd) {
+        Iterator<ConnectListener> cli = ccl.iterator();
+        while (cli.hasNext()) cli.next().initConnectEvent(cd);
     }
 }
