@@ -3,10 +3,14 @@ package Radiacia.gui;
 import Radiacia.game.GameObject;
 import Radiacia.game.Gamer;
 import Radiacia.game.Shot;
+import Radiacia.gui.display.Artist;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by Cntgfy on 07.08.2016.
@@ -27,14 +31,14 @@ public class GameWindow extends JPanel {
         setBackground(Color.WHITE);
 
         pos = new GameObject(0, 0, 0f);
-        artist = new GameArtist(null, pos);
+        artist = new Artist(null, pos);
 
         PositionMover positionMover = new PositionMover(this);
         addMouseMotionListener(positionMover);
         addMouseListener(positionMover);
     }
 
-    GameArtist artist;
+    Artist artist;
 
     @Override
     public void paint(Graphics g) {
