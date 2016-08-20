@@ -24,6 +24,11 @@ public class GameClient {
         this(client, null);
     }
 
+    public GameClient(Client client, long id) {
+        this(client, null);
+        this.conD.setId(id);
+    }
+
     public GameClient(Client client, AccountService accountService) {
         this.conD = new ConnectData();
         this.conD.setOwner(client);

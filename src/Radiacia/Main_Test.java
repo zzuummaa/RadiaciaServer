@@ -77,6 +77,11 @@ public class Main_Test extends Thread {
         gameMachine.start();
     }
 
+    public static void closeAll() throws IOException {
+        gameServer.close();
+        gameMachine.interrupt();
+    }
+
     public static GameServer getGameServer() {
         return gameServer;
     }

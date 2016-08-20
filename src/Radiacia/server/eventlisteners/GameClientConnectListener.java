@@ -1,8 +1,8 @@
 package Radiacia.server.eventlisteners;
 
 import Radiacia.data.ConnectData;
-import Radiacia.server.services.AccountService;
 import Radiacia.server.client.GameClient;
+import Radiacia.server.services.AccountService;
 
 import java.io.IOException;
 
@@ -26,26 +26,13 @@ public class GameClientConnectListener extends ConnectListener {
     @Override
     public void onConnect(ConnectData cd) {
         try {
-            tryToConnect(cd);
+            gameClient.setConD(cd);
 
             if(accountService != null) accountService.connect(gameClient);
-
-            System.out.println("connect: " + gameClient);
+            else                       gameClient.connect(cd);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Обменивается информацией о подключении
-     *
-     * Пытается выяснить, какую информацию использовать при подключении
-     * Использует полученные данные, если их <code>id != 0</code>
-     *
-     * @throws java.io.IOException
-     */
-    protected void tryToConnect(ConnectData inCD) throws IOException {
-        gameClient.setConD(inCD);
     }
 
     private void setInfo() {

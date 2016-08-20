@@ -1,7 +1,6 @@
 package Radiacia.server.client;
 
 import Radiacia.data.Data;
-import Radiacia.data.GamerData;
 import Radiacia.server.eventlisteners.DataListener;
 
 import java.io.IOException;
@@ -47,9 +46,6 @@ public class ClientListenThread extends Thread {
                 Data data = client.read();
 
                 if (isInterrupted()) break;
-                if (data instanceof GamerData) {
-                    System.out.println("Gamer data!!!");
-                }
 
                 synchronized (listeners) {
                     Iterator<DataListener> iterator = listeners.iterator();

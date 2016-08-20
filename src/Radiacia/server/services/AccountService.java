@@ -41,8 +41,13 @@ public class AccountService {
     public synchronized void connect(GameClient gc) throws IOException {
         ConnectData cd = getServiceConnectData(gc);
 
-        if (cd != null) connect(gc, cd);
+        if (cd == null) {
+            gc.close();
+            return;
+        }
 
+        connect(gc, cd);
+        System.out.println("connect: " + gc);
         initConnectEvent(cd);
     }
 
@@ -67,8 +72,9 @@ public class AccountService {
         return cd;
     }
 
-    private void connect(GameClient gc, ConnectData cd) {
+    private void connect(GameClient gc, ConnectData cd) throws IOException {
         gc.setConD(cd);
+        gc.getClient().write(cd);
         clients.put(cd.getId(), gc);
     }
 

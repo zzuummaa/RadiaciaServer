@@ -29,6 +29,10 @@ public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOf
         this.accuracy = gamer.accuracy;
     }
 
+    public Gamer(double latitude, double longitude, float direction) {
+        super(latitude, longitude, direction);
+    }
+
     public Gamer(String name, double latitude, double longitude, float direction) {
         super(latitude, longitude, direction);
         this.name = name;
