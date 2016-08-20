@@ -2,13 +2,11 @@ package Radiacia.server.client;
 
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
-import Radiacia.server.eventlisteners.GameClientConnectListener;
 import Radiacia.server.eventlisteners.DataListener;
-import Radiacia.server.eventlisteners.GameClientListener;
+import Radiacia.server.eventlisteners.GameClientConnectListener;
 import Radiacia.server.services.AccountService;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * Created by Cntgfy on 18.08.2016.
@@ -18,7 +16,6 @@ import java.util.Set;
 public class GameClient {
     private ConnectData conD;;
     private ClientListenThread clth;
-    private Set<DataListener> tmpListeners;
 
     public GameClient(Client client) {
         this(client, null);
@@ -90,13 +87,6 @@ public class GameClient {
 
         this.conD = new ConnectData(cd);
         conD.getOwner().connect();
-
-        if (tmpListeners == null) {
-            clth.addListener(new GameClientListener());
-        } else {
-            clth.setListeners(tmpListeners);
-            tmpListeners = null;
-        }
     }
 
     public void close() throws IOException {

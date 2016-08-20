@@ -33,8 +33,13 @@ public class Main_TestGameClient {
             }
 
             if (str.equals("close")) {
-                gc.close();
+                close();
                 continue;
+            }
+
+            if (str.equals("exit")) {
+                close();
+                return;
             }
 
             if (str.equals("write")) {
@@ -51,13 +56,20 @@ public class Main_TestGameClient {
     }
 
     public static void reconnect() throws IOException {
-        if (!isClosed) gc.close();
+        close();
         connect(gc.getId());
     }
 
     public static void connect(long id) throws IOException {
         gc = new GameClient(new SocketClient(new Socket("localHost", 9090)), id);
-        isClosed = false;
         gc.connect();
+        isClosed = false;
+    }
+
+    public static void close() throws IOException {
+        if (!isClosed) {
+            gc.close();
+            isClosed = true;
+        }
     }
 }

@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: java -classpath . TestMain
-Main-Class: Radiacia.TestMain
+Main-Class: Radiacia.Main_GUIWithGame
 
