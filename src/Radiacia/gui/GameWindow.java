@@ -60,7 +60,7 @@ public class GameWindow extends JPanel {
         g2d.translate(getWidth()/2, getHeight()/2);
         g2d.scale(scale, scale);
 
-        artist.setGraphics(g);
+        artist.setGraphics(g2d);
         drawShots();
         drawGamers();
 
@@ -132,6 +132,14 @@ public class GameWindow extends JPanel {
     public void addShots(Collection<Shot> shoots) {
         this.shots.addAll(shoots);
         this.repaint();
+    }
+
+    public void setGamers(Set<Gamer> gamers) {
+        this.gamers = gamers;
+    }
+
+    public void setShots(Set<Shot> shots) {
+        this.shots = shots;
     }
 
     public Collection<Shot> getShots() {

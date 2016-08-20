@@ -2,12 +2,8 @@ package Radiacia;
 
 import Radiacia.game.GameMachine;
 import Radiacia.game.Gamer;
-import Radiacia.server.client.Client;
-import Radiacia.server.client.ClientGamer;
-import Radiacia.server.client.ClientsGamers;
-import Radiacia.server.client.SocketClient;
-import Radiacia.server.client.GameClient;
 import Radiacia.server.GameServer;
+import Radiacia.server.client.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -23,14 +19,12 @@ import java.util.Set;
  */
 public class Main_Test extends Thread {
     private static GameServer gameServer;
+    private static GameMachine gameMachine;
+    private static ClientsGamers gamers;
+    private static boolean isInterrupted = false;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        gameServer = new GameServer();
-
-        GameMachine gameMachine = new GameMachine(1);
-        ClientsGamers clientsGamers = new ClientsGamers(gameServer.getSlth().getAccountService());
-        gameMachine.setGamers(clientsGamers);
-        gameMachine.start();
+        init();
 
         GameClient gc1 = connect();
         GameClient gc2 = connect();
@@ -42,7 +36,7 @@ public class Main_Test extends Thread {
 
         printInfo(gameServer);
 
-        while (!interrupted());
+        while (!isInterrupted) yield();
 
         gc1.close();
         gc2.close();
@@ -72,5 +66,30 @@ public class Main_Test extends Thread {
         for (Long id: ids) {
             System.out.println("id " + id + ":" + clients.get(id));
         }
+    }
+
+    public static void init() throws IOException {
+        gameServer = new GameServer();
+
+        gameMachine = new GameMachine(1);
+        gamers = new ClientsGamers(gameServer.getSlth().getAccountService());
+        gameMachine.setGamers(gamers);
+        gameMachine.start();
+    }
+
+    public static GameServer getGameServer() {
+        return gameServer;
+    }
+
+    public static GameMachine getGameMachine() {
+        return gameMachine;
+    }
+
+    public static ClientsGamers getGamers() {
+        return gamers;
+    }
+
+    public void interrupt() {
+        isInterrupted = true;
     }
 }

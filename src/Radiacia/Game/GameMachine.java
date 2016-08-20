@@ -73,6 +73,10 @@ public class GameMachine extends Thread {
         }
     }
 
+    public Collection<Gamer> getGamers() {
+        return gamers;
+    }
+
     public void setFps(int fps) {
         this.fps = fps;
     }
