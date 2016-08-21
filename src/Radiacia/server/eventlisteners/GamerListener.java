@@ -21,5 +21,6 @@ public class GamerListener implements DataListener {
 
     public void onGamerData(GamerData gd) {
         this.gamer.setGamer(gd.getData());
+        System.out.println("player received: " + gd.getData());
     }
 }

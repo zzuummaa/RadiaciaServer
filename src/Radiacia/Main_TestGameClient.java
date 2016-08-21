@@ -1,7 +1,6 @@
 package Radiacia;
 
-import Radiacia.data.GamerData;
-import Radiacia.game.Gamer;
+import Radiacia.server.client.ClientGamer;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.client.SocketClient;
 
@@ -12,14 +11,15 @@ import java.net.Socket;
 
 /**
  * Created by Cntgfy on 20.08.2016.
+ *
+ * Временно сломано переподключение во имя науки :(
  */
 public class Main_TestGameClient {
     private static GameClient gc;
-    private static Gamer gamer;
+    private static ClientGamer gamer;
     private static boolean isClosed = true;
 
     public static void main(String[] args) throws IOException {
-        gamer = new Gamer();
         connect(0);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -43,7 +43,7 @@ public class Main_TestGameClient {
             }
 
             if (str.equals("write")) {
-                gc.getClient().write(new GamerData(gamer));
+                gamer.writeSelf();
                 continue;
             }
 
@@ -63,13 +63,22 @@ public class Main_TestGameClient {
     public static void connect(long id) throws IOException {
         gc = new GameClient(new SocketClient(new Socket("localHost", 9090)), id);
         gc.connect();
+
+        gamer = new ClientGamer(gc);
+
         isClosed = false;
     }
 
     public static void close() throws IOException {
         if (!isClosed) {
             gc.close();
+            gamer.close();
+
             isClosed = true;
         }
+    }
+
+    public static void testAzazaz() {
+
     }
 }

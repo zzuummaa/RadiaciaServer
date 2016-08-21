@@ -7,18 +7,31 @@ import java.io.Serializable;
  */
 public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOfEarth, Serializable {
     private String name;
-    private boolean isALive = true;
-    private boolean isShoot = false;
+    private boolean isALive;
+    private boolean isShoot;
 
     //Точность определения местоположения игрока в метрах
-    private float accuracy = 9f;
+    private float accuracy;
 
     public Gamer() {
-        name = "";
+        this("");
     }
 
     public Gamer(String name) {
+        this(name, 0d, 0d, 0f);
+    }
+
+    public Gamer(double latitude, double longitude, float direction) {
+        this("", latitude, longitude, direction);
+    }
+
+    public Gamer(String name, double latitude, double longitude, float direction) {
+        super(latitude, longitude, direction);
+
         this.name = name;
+        this.isALive = true;
+        this.isShoot = false;
+        this.accuracy = 9f;
     }
 
     public Gamer(Gamer gamer) {
@@ -27,15 +40,6 @@ public class Gamer extends GameObject implements MayShoot, MayBeHit, OnSurfaceOf
         this.isALive = gamer.isALive;
         this.isShoot = gamer.isShoot;
         this.accuracy = gamer.accuracy;
-    }
-
-    public Gamer(double latitude, double longitude, float direction) {
-        super(latitude, longitude, direction);
-    }
-
-    public Gamer(String name, double latitude, double longitude, float direction) {
-        super(latitude, longitude, direction);
-        this.name = name;
     }
 
     /*

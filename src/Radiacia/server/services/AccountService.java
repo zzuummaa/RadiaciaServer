@@ -47,7 +47,7 @@ public class AccountService {
         }
 
         connect(gc, cd);
-        System.out.println("connect: " + gc);
+        System.out.println("connect: id=" + gc.getId());
         initConnectEvent(cd);
     }
 

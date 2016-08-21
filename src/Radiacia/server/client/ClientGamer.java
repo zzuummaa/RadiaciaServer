@@ -41,11 +41,12 @@ public class ClientGamer extends Gamer {
     /**
      * Записывает свое состояние
      */
-    private void writeSelf() {
+    public void writeSelf() {
         if (isCatchIO) return;
 
         try {
-            gc.getClient().write(new GamerData(this));
+            Gamer gamer = new Gamer(this);
+            gc.getClient().write(new GamerData(gamer));
         } catch (IOException e) {
             e.printStackTrace();
             isCatchIO = true;
