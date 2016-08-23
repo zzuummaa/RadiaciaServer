@@ -1,5 +1,6 @@
 package Radiacia;
 
+import Radiacia.game.Gamer;
 import Radiacia.server.client.ClientGamer;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.client.SocketClient;
@@ -48,10 +49,11 @@ public class Main_TestGameClient {
             }
 
             String[] pars = str.split("=");
-
-            if (pars[0].equals("isShoot")) {
-                gamer.setIsShoot(Boolean.valueOf(pars[1]));
+            if (pars.length == 2) {
+                setParam(gamer, pars);
             }
+
+            System.out.println(gamer);
         }
     }
 
@@ -78,7 +80,15 @@ public class Main_TestGameClient {
         }
     }
 
-    public static void testAzazaz() {
+    public static void setParam(Gamer gamer, String[] value) {
+        if (value.length == 2) {
+            String field = value[0];
+            String param = value[1];
 
+            if (field.equals("isShoot")) gamer.setIsShoot(Boolean.valueOf(param));
+            if (field.equals("latitude")) gamer.setLatitude(Double.valueOf(param));
+            if (field.equals("longitude")) gamer.setLongitude(Double.valueOf(param));
+            if (field.equals("isAlive")) gamer.setALive(Boolean.valueOf(param));
+        }
     }
 }

@@ -1,8 +1,5 @@
 package Radiacia.gui;
 
-import Radiacia.game.Gamer;
-import Radiacia.game.Shot;
-
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -18,8 +15,6 @@ public class RadiaciaServerGUI extends JFrame {
     private double scroll = 0.1d;
 
     public GameWindow gameWindow;
-    private JButton nextShotBt;
-    private JButton nextGamerBt;
 
     public static void main(String[] args) {
         RadiaciaServerGUI radiaciaServerGUI = new RadiaciaServerGUI();
@@ -30,9 +25,6 @@ public class RadiaciaServerGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(getToolkit().getScreenSize());
         addScrolling();
-
-        nextShotBt = new JButton("Next shot");
-        nextGamerBt = new JButton("Next gamer");
 
         gameWindow = new GameWindow();
         addGameWindow(gameWindow);
@@ -61,20 +53,6 @@ public class RadiaciaServerGUI extends JFrame {
      */
     private void addGameWindow(GameWindow gameWindow) {
         gameWindow.setSize(getSize());
-        addNextBts(gameWindow);
         add(gameWindow);
-    }
-
-    /**
-     * Добавляет кнопки перехода по игровым объектам к игровому окну
-     */
-    private void addNextBts(GameWindow gameWindow) {
-        //nextShotBt.setSize(100, 40);
-        nextShotBt.addActionListener(new IterateGameObjectListener<Shot>(gameWindow, gameWindow.getShots()));
-        gameWindow.add(nextShotBt);
-
-        //nextGamerBt.setSize(100, 40);
-        nextGamerBt.addActionListener(new IterateGameObjectListener<Gamer>(gameWindow, gameWindow.getGamers()));
-        gameWindow.add(nextGamerBt);
     }
 }

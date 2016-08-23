@@ -27,8 +27,17 @@ public class GameWindow extends JPanel {
     private Set<Shot> shots = new HashSet<>();
     private Set<Gamer> gamers = new HashSet<>();
 
+    private JButton nextShotBt;
+    private JButton nextGamerBt;
+
+    private IterateGameObjectListener<Shot> iterateShotsListener;
+    private IterateGameObjectListener<Gamer> iterateGamersListener;
+
     public GameWindow() {
         setBackground(Color.WHITE);
+
+        nextShotBt = new JButton("Next shot");
+        nextGamerBt = new JButton("Next gamer");
 
         pos = new GameObject(0, 0, 0f);
         artist = new Artist(null, pos);
@@ -36,6 +45,23 @@ public class GameWindow extends JPanel {
         PositionMover positionMover = new PositionMover(this);
         addMouseMotionListener(positionMover);
         addMouseListener(positionMover);
+
+        addNextBts(this);
+    }
+
+    /**
+     * Добавляет кнопки перехода по игровым объектам к игровому окну
+     */
+    private void addNextBts(GameWindow gameWindow) {
+        //nextShotBt.setSize(100, 40);
+        iterateShotsListener = new IterateGameObjectListener<Shot>(gameWindow, gameWindow.getShots());
+        nextShotBt.addActionListener(iterateShotsListener);
+        gameWindow.add(nextShotBt);
+
+        //nextGamerBt.setSize(100, 40);
+        iterateGamersListener = new IterateGameObjectListener<Gamer>(gameWindow, gameWindow.getGamers());
+        nextGamerBt.addActionListener(iterateGamersListener);
+        gameWindow.add(nextGamerBt);
     }
 
     Artist artist;
@@ -136,10 +162,12 @@ public class GameWindow extends JPanel {
 
     public void setGamers(Set<Gamer> gamers) {
         this.gamers = gamers;
+        this.iterateGamersListener.setGameObjects(gamers);
     }
 
     public void setShots(Set<Shot> shots) {
         this.shots = shots;
+        this.iterateShotsListener.setGameObjects(shots);
     }
 
     public Collection<Shot> getShots() {

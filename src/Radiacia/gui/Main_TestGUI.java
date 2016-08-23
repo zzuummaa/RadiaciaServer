@@ -16,7 +16,7 @@ public class Main_TestGUI {
         final ArrayList<Shot> shots = new ArrayList<>();
         shots.add(new Shot(50, 50, 0));
 
-        ArrayList<Gamer> gamers = new ArrayList<>();
+        final ArrayList<Gamer> gamers = new ArrayList<>();
         Gamer gamer = new Gamer("GamerTest", 10, 10, 0);
         gamer.setAccuracy(100);
         gamers.add(gamer);
@@ -25,17 +25,23 @@ public class Main_TestGUI {
         gameWindow.addGamers(gamers);
 
         Thread thread = new Thread(new Runnable() {
+            private float direction = 0f;
+
             @Override
             public void run() {
                 try {
                     while (true) {
-                        Shot shot = shots.get(0);
-                        shot.setDirection(shot.getDirection() + 90f);
-                        if (shot.getDirection() > 180) shot.setDirection(shot.getDirection() - 360);
+
+                        shots.get(0).setDirection(direction);
+                        gamers.get(0).setDirection(direction);
+
+                        direction += 5f;
+                        if (direction > 180) direction -= 360;
+
                         serverGUI.repaint();
 
-                        System.out.println("direction: " + shot.getDirection());
-                        Thread.sleep(1000);
+                        System.out.println("direction: " + direction);
+                        Thread.sleep(200);
                     }
                 } catch (InterruptedException e) {
                 }
