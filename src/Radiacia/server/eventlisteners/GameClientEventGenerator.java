@@ -1,5 +1,7 @@
 package Radiacia.server.eventlisteners;
 
+import Radiacia.base.DataListenerInterface;
+import Radiacia.base.EventGeneratorInterface;
 import Radiacia.data.ClientData;
 import Radiacia.data.Data;
 import Radiacia.data.GamerData;
@@ -16,10 +18,10 @@ import java.util.Set;
  *
  * Генератор событий для двух видов данных ClientData и GamerData
  *
- * @see Radiacia.server.eventlisteners.ClientDataListener
- * @see Radiacia.server.eventlisteners.GameDataListener
+ * @see ClientDataListener
+ * @see GameDataListener
  */
-public class GameClientEventGenerator implements EventGenerator {
+public class GameClientEventGenerator implements EventGeneratorInterface {
     private Set<ClientDataListener> scdl;
     private Set<GameDataListener> sgdl;
 
@@ -34,11 +36,11 @@ public class GameClientEventGenerator implements EventGenerator {
         this.clth.start();
     }
 
-    public GameClientEventGenerator(Client client, DataListener... dls) {
+    public GameClientEventGenerator(Client client, DataListenerInterface... dls) {
         this(client);
 
         for (int i = 0; i < dls.length; i++) {
-            addDataListener(dls[i]);
+            addListener(dls[i]);
         }
     }
 
@@ -53,19 +55,19 @@ public class GameClientEventGenerator implements EventGenerator {
     /**
      * Инициализирует событие множества слушателей
      */
-    private void initEvent(Data data, Set<? extends DataListener> sdl) {
-        Iterator<? extends DataListener> dli = sdl.iterator();
+    private void initEvent(Data data, Set<? extends DataListenerInterface> sdl) {
+        Iterator<? extends DataListenerInterface> dli = sdl.iterator();
         while (dli.hasNext()) dli.next().initEvent(data);
     }
 
     @Override
-    public void addDataListener(DataListener dl) {
+    public void addListener(DataListenerInterface dl) {
         if (dl instanceof ClientDataListener) scdl.add((ClientDataListener) dl);
-        if (dl instanceof GameDataListener  ) sgdl.add((GameDataListener)   dl);
+        if (dl instanceof GameDataListener) sgdl.add((GameDataListener)   dl);
     }
 
     @Override
-    public boolean removeListener(DataListener l) {
+    public boolean removeListener(DataListenerInterface l) {
         boolean isRemoved = false;
 
         if (scdl.remove(l)) isRemoved = true;
@@ -75,8 +77,8 @@ public class GameClientEventGenerator implements EventGenerator {
     }
 
     @Override
-    public Collection<DataListener> removeAllListeners() {
-        Set<DataListener> sdl = new HashSet<>();
+    public Collection<DataListenerInterface> removeAllListeners() {
+        Set<DataListenerInterface> sdl = new HashSet<>();
 
         sdl.addAll(scdl);
         sdl.addAll(sgdl);

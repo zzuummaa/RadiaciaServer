@@ -2,7 +2,7 @@ package Radiacia.server.client;
 
 import Radiacia.data.ClientData;
 import Radiacia.data.ConnectData;
-import Radiacia.server.eventlisteners.DataListener;
+import Radiacia.base.DataListenerInterface;
 import Radiacia.server.eventlisteners.GameClientConnectListener;
 import Radiacia.server.services.AccountService;
 
@@ -37,7 +37,7 @@ public class GameClient {
         }
     }
 
-    public void addListener(DataListener listener) {
+    public void addListener(DataListenerInterface listener) {
         this.clth.addListener(listener);
     }
 

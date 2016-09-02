@@ -4,6 +4,7 @@ import Radiacia.game.GameMachine;
 import Radiacia.game.Gamer;
 import Radiacia.server.GameServer;
 import Radiacia.server.client.*;
+import Radiacia.server.services.AccountService;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -72,7 +73,7 @@ public class Main_Test extends Thread {
         gameServer = new GameServer();
 
         gameMachine = new GameMachine(1);
-        gamers = new ClientsGamers(gameServer.getSlth().getAccountService());
+        gamers = new ClientsGamers((AccountService) gameServer.getAccountService());
         gameMachine.setGamers(gamers);
         gameMachine.start();
     }

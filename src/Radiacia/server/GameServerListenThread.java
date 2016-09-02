@@ -1,5 +1,7 @@
 package Radiacia.server;
 
+import Radiacia.base.Acceptable;
+import Radiacia.base.AccountServiceInterface;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.services.AccountService;
 
@@ -9,16 +11,16 @@ import java.io.IOException;
  * Created by Cntgfy on 18.08.2016.
  */
 public class GameServerListenThread extends Thread {
-    private Server server;
+    private Acceptable acceptable;
     private AccountService accountService;
 
-    public GameServerListenThread(Server server) {
-        this(server, false);
+    public GameServerListenThread(Acceptable acceptable) {
+        this(acceptable, false);
     }
 
-    public GameServerListenThread(Server server, boolean startNow) {
+    public GameServerListenThread(Acceptable acceptable, boolean startNow) {
         super("GameServerListenThread");
-        this.server = server;
+        this.acceptable = acceptable;
         this.accountService = new AccountService();
 
         if (startNow) start();
@@ -28,7 +30,7 @@ public class GameServerListenThread extends Thread {
     public void run() {
         while (!isInterrupted()) {
             try {
-                GameClient gameClient = new GameClient(server.accept(), accountService);
+                GameClient gameClient = new GameClient(acceptable.accept(), accountService);
             } catch (IOException e) {
                 if (!isInterrupted()) {
                     e.printStackTrace();
@@ -42,7 +44,7 @@ public class GameServerListenThread extends Thread {
         super.interrupt();
     }
 
-    public AccountService getAccountService() {
+    public AccountServiceInterface getAccountService() {
         return accountService;
     }
 }

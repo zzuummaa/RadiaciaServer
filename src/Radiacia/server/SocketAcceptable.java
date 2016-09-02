@@ -1,5 +1,6 @@
 package Radiacia.server;
 
+import Radiacia.base.Acceptable;
 import Radiacia.server.client.SocketClient;
 
 import java.io.IOException;
@@ -11,10 +12,10 @@ import java.net.ServerSocket;
  * Реализует сообщение с помощью сокет соединения
  *
  */
-public class SocketServer implements Server<SocketClient> {
+public class SocketAcceptable implements Acceptable<SocketClient> {
     private ServerSocket serverSocket;
 
-    public SocketServer(ServerSocket serverSocket) {
+    public SocketAcceptable(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 

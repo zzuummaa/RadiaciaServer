@@ -1,5 +1,6 @@
 package Radiacia.server.eventlisteners;
 
+import Radiacia.base.DataListenerInterface;
 import Radiacia.server.client.Client;
 import Radiacia.data.ClientData;
 import Radiacia.data.Data;
@@ -7,7 +8,7 @@ import Radiacia.data.Data;
 /**
  * Created by Cntgfy on 18.08.2016.
  */
-public abstract class ClientDataListener implements DataListener {
+public abstract class ClientDataListener implements DataListenerInterface {
     protected Client client;
 
     protected ClientDataListener(Client client) {

@@ -1,5 +1,6 @@
 package Radiacia.server.services;
 
+import Radiacia.base.AccountServiceInterface;
 import Radiacia.server.client.GameClient;
 import Radiacia.data.ConnectData;
 import Radiacia.server.eventlisteners.ConnectListener;
@@ -12,7 +13,7 @@ import java.util.*;
  *
  * Администрирует подключения
  */
-public class AccountService {
+public class AccountService implements AccountServiceInterface {
     private IDManager idManager;
     private volatile Map<Long, GameClient> clients;
     private volatile Collection<ConnectListener> ccl;

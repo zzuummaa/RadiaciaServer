@@ -1,7 +1,7 @@
 package Radiacia.server.client;
 
 import Radiacia.data.Data;
-import Radiacia.server.eventlisteners.DataListener;
+import Radiacia.base.DataListenerInterface;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.Set;
  * Слушает клиента и сохраняет данные
  */
 public class ClientListenThread extends Thread {
-    private volatile Set<DataListener> listeners;
+    private volatile Set<DataListenerInterface> listeners;
     private Client client;
 
     private ClientListenThread() {
@@ -25,7 +25,7 @@ public class ClientListenThread extends Thread {
         this(client, null);
     }
 
-    public ClientListenThread(Client client, DataListener... listeners) {
+    public ClientListenThread(Client client, DataListenerInterface... listeners) {
         super("ClientListenThread");
         this.client = client;
 
@@ -48,7 +48,7 @@ public class ClientListenThread extends Thread {
                 if (isInterrupted()) break;
 
                 synchronized (listeners) {
-                    Iterator<DataListener> iterator = listeners.iterator();
+                    Iterator<DataListenerInterface> iterator = listeners.iterator();
                     while (iterator.hasNext()) iterator.next().initEvent(data);
                 }
             } catch (IOException e) {
@@ -60,21 +60,21 @@ public class ClientListenThread extends Thread {
         }
     }
 
-    public synchronized void addListener(DataListener dl) {
+    public synchronized void addListener(DataListenerInterface dl) {
         synchronized (listeners) {
             listeners.add(dl);
         }
     }
 
-    public synchronized boolean removeListener(DataListener dl) {
+    public synchronized boolean removeListener(DataListenerInterface dl) {
         return listeners.remove(dl);
     }
 
-    public synchronized void setListeners(Set<DataListener> listeners) {
+    public synchronized void setListeners(Set<DataListenerInterface> listeners) {
         this.listeners = listeners;
     }
 
-    public Set<DataListener> getListeners() {
+    public Set<DataListenerInterface> getListeners() {
         return listeners;
     }
 }

@@ -1,4 +1,4 @@
-package Radiacia.server.eventlisteners;
+package Radiacia.base;
 
 import Radiacia.data.Data;
 
@@ -8,7 +8,7 @@ import Radiacia.data.Data;
  * Позволяет получать события при приходе данных
  * определенного типа
  */
-public interface DataListener {
+public interface DataListenerInterface {
     /**
      * Вызывает метод, соответствующий типу пришедших
      * данных.

@@ -67,13 +67,13 @@ public class GameClientEventGeneratorTest {
     public void testListeners() throws Exception {
         GameClientEventGenerator gceg = init();
 
-        gceg.addDataListener(new ClientDataListener(gceg.getClient()) {
+        gceg.addListener(new ClientDataListener(gceg.getClient()) {
             @Override
             public void initClientEvent(ClientData cd) {
 
             }
         });
-        gceg.addDataListener(new GameDataListener() {
+        gceg.addListener(new GameDataListener() {
             @Override
             public void onGamerData(GamerData gamerData) {
 

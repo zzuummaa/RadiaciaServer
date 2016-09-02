@@ -1,4 +1,4 @@
-package Radiacia.server;
+package Radiacia.base;
 
 import Radiacia.server.client.Client;
 
@@ -7,12 +7,9 @@ import java.io.IOException;
 /**
  * Created by Cntgfy on 27.07.2016.
  *
- * Реализует логику работы сервера.
- *
- * 1. Принять подключения.
- * 2. Состояние вкл/выкл сервера
+ * Реализует слушание новых подключений
  */
-public interface Server<A extends Client> {
+public interface Acceptable<A extends Client> {
     /**
      * Подключает клиента. При вызове метод должен блокировать поток
      * до подключения.

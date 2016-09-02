@@ -1,5 +1,6 @@
 package Radiacia.server.eventlisteners;
 
+import Radiacia.base.DataListenerInterface;
 import Radiacia.game.Gamer;
 import Radiacia.data.Data;
 import Radiacia.data.GamerData;
@@ -7,7 +8,7 @@ import Radiacia.data.GamerData;
 /**
  * Created by Cntgfy on 18.08.2016.
  */
-public class GamerListener implements DataListener {
+public class GamerListener implements DataListenerInterface {
     private Gamer gamer;
 
     public GamerListener(Gamer gamer) {

@@ -1,7 +1,7 @@
 package Radiacia.server.client;
 
-import Radiacia.game.Gamer;
 import Radiacia.data.ConnectData;
+import Radiacia.game.Gamer;
 import Radiacia.server.eventlisteners.ConnectListener;
 import Radiacia.server.services.AccountService;
 

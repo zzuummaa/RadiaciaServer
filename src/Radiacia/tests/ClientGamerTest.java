@@ -1,5 +1,6 @@
 package Radiacia.tests;
 
+import Radiacia.base.AccountServiceInterface;
 import Radiacia.game.Gamer;
 import Radiacia.server.GameServer;
 import Radiacia.server.client.ClientGamer;
@@ -47,8 +48,8 @@ public class ClientGamerTest {
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
         gs = new GameServer();
-        AccountService as = gs.getSlth().getAccountService();
-        csgs = new ClientsGamers(as);
+        AccountServiceInterface as = gs.getAccountService();
+        csgs = new ClientsGamers((AccountService) as);
 
         cgc = new GameClient(new SocketClient(new Socket("localHost", 9090)));
         cgc.connect();
