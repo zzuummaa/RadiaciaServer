@@ -1,5 +1,7 @@
 package Radiacia.server;
 
+import Radiacia.base.EventGeneratorInterface;
+import Radiacia.base.ServerInterface;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.services.AccountService;
 
@@ -14,7 +16,7 @@ import java.util.Map;
  *
  * Отвечает за связь логики игры и связи через сеть
  */
-public class GameServer {
+public class GameServer implements ServerInterface {
     private SocketAcceptable socketAcceptable;
     private GameServerListenThread slth;
     private AccountService as;
@@ -33,11 +35,24 @@ public class GameServer {
         return as.getClients().get(id);
     }
 
-    public void close() throws IOException {
-        closeClients();
+    @Override
+    public EventGeneratorInterface getEventGenerator() {
+        return null;
+    }
 
-        this.slth.interrupt();
-        this.socketAcceptable.close();
+    @Override
+    public boolean close() {
+        try {
+            closeClients();
+
+            this.slth.interrupt();
+            this.socketAcceptable.close();
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void closeClients() throws IOException {
