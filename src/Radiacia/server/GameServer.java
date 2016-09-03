@@ -1,20 +1,20 @@
 package Radiacia.server;
 
-import Radiacia.base.AccountServiceInterface;
-import Radiacia.base.ServerInterface;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.services.AccountService;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Cntgfy on 16.08.2016.
  *
  * Отвечает за связь логики игры и связи через сеть
  */
-public class GameServer implements ServerInterface {
+public class GameServer {
     private SocketAcceptable socketAcceptable;
     private GameServerListenThread slth;
     private AccountService as;
@@ -48,8 +48,7 @@ public class GameServer implements ServerInterface {
         }
     }
 
-    @Override
-    public AccountServiceInterface getAccountService() {
+    public AccountService getAccountService() {
         return slth.getAccountService();
     }
 }

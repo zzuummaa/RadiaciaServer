@@ -77,6 +77,10 @@ public class GameClientEventGenerator implements EventGeneratorInterface {
     }
 
     @Override
+    public void notifyListeners(Data data) {
+        initEvent(data);
+    }
+
     public Collection<DataListenerInterface> removeAllListeners() {
         Set<DataListenerInterface> sdl = new HashSet<>();
 
@@ -106,7 +110,7 @@ public class GameClientEventGenerator implements EventGeneratorInterface {
 
                     if (isInterrupted()) break;
 
-                    initEvent(data);
+                    notifyListeners(data);
                 } catch (IOException e) {
                     if (!isInterrupted()) {
                         e.printStackTrace();

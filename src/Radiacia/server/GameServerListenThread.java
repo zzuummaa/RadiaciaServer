@@ -1,7 +1,6 @@
 package Radiacia.server;
 
 import Radiacia.base.Acceptable;
-import Radiacia.base.AccountServiceInterface;
 import Radiacia.server.client.GameClient;
 import Radiacia.server.services.AccountService;
 
@@ -44,7 +43,7 @@ public class GameServerListenThread extends Thread {
         super.interrupt();
     }
 
-    public AccountServiceInterface getAccountService() {
+    public AccountService getAccountService() {
         return accountService;
     }
 }

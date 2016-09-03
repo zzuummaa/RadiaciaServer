@@ -1,9 +1,6 @@
 package Radiacia.base;
 
-import Radiacia.server.client.GameClient;
-
-import java.io.IOException;
-import java.util.Map;
+import java.util.Collection;
 
 /**
  * Created by Cntgfy on 02.09.2016.
@@ -17,15 +14,7 @@ public interface AccountServiceInterface {
     public boolean contains(Long id);
 
     /**
-     * @return карту пар id-client
+     * @return известные аккаунты
      */
-    public Map<Long, GameClient> getClients();
-
-    /**
-     * Подключает клиента
-     *
-     * @param gc
-     * @throws IOException
-     */
-    public void connect(GameClient gc) throws IOException;
+    public Collection<AccountInterface> getAccounts();
 }

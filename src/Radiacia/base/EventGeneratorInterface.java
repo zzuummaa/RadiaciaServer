@@ -1,6 +1,6 @@
 package Radiacia.base;
 
-import java.util.Collection;
+import Radiacia.data.Data;
 
 /**
  * Created by Cntgfy on 20.08.2016.
@@ -12,7 +12,5 @@ public interface EventGeneratorInterface {
 
     public boolean removeListener(DataListenerInterface l);
 
-    //public void notifyListeners();
-
-    public Collection<DataListenerInterface> removeAllListeners();
+    public void notifyListeners(Data data);
 }
