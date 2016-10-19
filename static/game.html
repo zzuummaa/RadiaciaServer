@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+    init = function() {
+        var ws = new WebSocket("ws://localhost:8080/game");
+        ws.onopen = function (event) {
+            alert("Socket open");
+        }
+        ws.onmessage = function (event) {
+
+        }
+        ws.onclose = function (event) {
+
+        }
+    }
+
+
+</script>
+</head>
+<body onLoad="init();">
+<p>Game html</p>
+</body>
+</html>

@@ -1,12 +1,14 @@
 package Radiacia.base;
 
 /**
- * Created by Cntgfy on 03.09.2016.
+ * Created by Cntgfy on 19.10.2016.
  *
- * Авторизует и регистрирует пользователей
+ * Хранит подключенных к серверу клиентов
  */
 public interface AuthServiceInterface {
-    public boolean signIn(String name, String pass);
+    String getUserName(String sessionId);
 
-    public boolean signUp(String name, String pass);
+    void saveUserName(String sessionId, String name);
+
+    boolean containsSession(String sessionId);
 }
