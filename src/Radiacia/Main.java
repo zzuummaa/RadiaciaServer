@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Cntgfy on 18.10.2016.
+ * Created by Fomenko_S.V. on 18.10.2016.
  */
 public class Main {
     public static void main(String[] args) throws Exception {

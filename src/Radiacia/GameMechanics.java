@@ -7,7 +7,7 @@ import Radiacia.base.GamerInterface;
 import java.util.Iterator;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class GameMechanics implements GameMechanicsInterface {
     private GamerContainerInterface gamers;

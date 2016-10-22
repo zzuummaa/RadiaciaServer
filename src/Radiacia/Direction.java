@@ -3,7 +3,7 @@ package Radiacia;
 import Radiacia.base.DirectionInterface;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class Direction extends Vector3D implements DirectionInterface {
     /**

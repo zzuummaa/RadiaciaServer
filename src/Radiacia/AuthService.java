@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class AuthService implements AuthServiceInterface {
     private Map<String, String> users = new HashMap<>();

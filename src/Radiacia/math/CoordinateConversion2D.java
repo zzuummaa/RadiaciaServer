@@ -1,7 +1,7 @@
 package Radiacia.math;
 
 /**
- * Created by Cntgfy on 11.07.2016.
+ * Created by Fomenko_S.V. on 11.07.2016.
  */
 public class CoordinateConversion2D {
     /*

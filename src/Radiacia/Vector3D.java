@@ -4,7 +4,7 @@ import static java.lang.Math.acos;
 import static java.lang.Math.sqrt;
 
 /**
- * Created by Cntgfy on 22.10.2016.
+ * Created by Fomenko_S.V. on 22.10.2016.
  */
 public class Vector3D {
     /**

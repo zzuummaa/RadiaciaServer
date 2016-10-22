@@ -1,7 +1,7 @@
 package Radiacia.base;
 
 /**
- * Created by Cntgfy on 03.09.2016.
+ * Created by Fomenko_S.V. on 3.09.2016.
  *
  * Авторизует и регистрирует пользователей
  */

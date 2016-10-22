@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Cntgfy on 18.10.2016.
+ * Created by Fomenko_S.V. on 18.10.2016.
  */
 public class LoginServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(LoginServlet.class);

@@ -4,7 +4,7 @@ import Radiacia.base.DirectionInterface;
 import Radiacia.base.PositionInterface;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class Position extends Vector3D implements PositionInterface {
     /**

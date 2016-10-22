@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class GamerContainer implements GamerContainerInterface {
     private Set<GamerInterface> gamers = new HashSet<>();

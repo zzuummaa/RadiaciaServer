@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 @WebServlet(name = "GameWebSocketServlet", urlPatterns = {"/game"} )
 public class GameWebSocketServlet extends WebSocketServlet {

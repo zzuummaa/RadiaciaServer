@@ -5,7 +5,7 @@ import Radiacia.base.GamerInterface;
 import Radiacia.base.PositionInterface;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class Gamer implements GamerInterface {
     private PositionInterface position;

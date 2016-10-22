@@ -10,7 +10,7 @@ import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public class GameWebSocketCreator implements WebSocketCreator {
     private static final Logger logger = LogManager.getLogger(GameWebSocketCreator.class);

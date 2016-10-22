@@ -3,7 +3,7 @@ package Radiacia.base;
 import java.util.Collection;
 
 /**
- * Created by Cntgfy on 19.10.2016.
+ * Created by Fomenko_S.V. on 19.10.2016.
  */
 public interface GamerContainerInterface {
     Collection<GamerInterface> asCollection();
