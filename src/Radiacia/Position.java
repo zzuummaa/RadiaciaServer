@@ -6,7 +6,10 @@ import Radiacia.base.PositionInterface;
 /**
  * Created by Cntgfy on 19.10.2016.
  */
-public class Position implements PositionInterface {
+public class Position extends Vector3D implements PositionInterface {
+    /**
+     * Трехмерные декартовы координаты
+     */
     private double[] coordinates;
 
     public Position() {
@@ -17,14 +20,24 @@ public class Position implements PositionInterface {
         this.coordinates = coordinates;
     }
 
+    /**
+     * Определяет направление вектора от <code>this</code> до
+     * <code>position</code> в виде объекта класса <code>Direction</code>
+     * @see Radiacia.Direction
+     *
+     * @param position
+     * @throws java.lang.ClassCastException если <code>position</code>
+     *         не является объектом класса Position
+     * @return направление
+     */
     @Override
-    public DirectionInterface direction(PositionInterface position) {
+    public DirectionInterface directionTo(PositionInterface position) throws ClassCastException {
         Position pos = (Position) position;
-        double[] cors = pos.getCoordinates();
 
+        double[] resVec = difference(pos.coordinates, this.coordinates);
+        vecToAngles(resVec);
 
-
-        return null;
+        return new Direction(resVec);
     }
 
     public double[] getCoordinates() {

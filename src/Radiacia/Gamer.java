@@ -23,10 +23,10 @@ public class Gamer implements GamerInterface {
 
     @Override
     public boolean isShot(GamerInterface gamer) {
-        DirectionInterface direction = this.getPosition().direction(gamer.getPosition());
-        DirectionInterface delta = this.getDirection().delta(direction);
+        DirectionInterface direction = this.getPosition().directionTo(gamer.getPosition());
+        double delta = this.getDirection().angleWith(direction);
 
-        if ( Math.abs(delta.getSingleAngle()) > delta.getAccuracy() ) {
+        if ( Math.abs(delta) > direction.getAccuracy() ) {
             return false;
         } else {
             return true;
