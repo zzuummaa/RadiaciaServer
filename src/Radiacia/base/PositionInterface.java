@@ -3,12 +3,14 @@ package Radiacia.base;
 /**
  * Created by Fomenko_S.V. on 19.10.2016.
  */
-public interface PositionInterface {
+public interface PositionInterface<A extends PositionInterface> {
     /**
-     * Определение направления вектора между <code>this</code> позицией
-     * и <code>position</code> позицией
-     *
-     * @return направление вектора из <code>this</code> в <code>position</code>
+     * Определение направления вектора от <code>this</code> позиции
+     * в <code>position</code> позицию
      */
-    DirectionInterface directionTo(PositionInterface position);
+    double[] directionTo(A position);
+
+    double linearAccuracyTo(A position);
+
+    double angularAccuracyTo(A position);
 }

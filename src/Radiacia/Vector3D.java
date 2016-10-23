@@ -32,7 +32,7 @@ public class Vector3D {
         vec[2] = acos(vec[2]);
     }
 
-    public void normalize(double[] vec) {
+    public static void normalize(double[] vec) {
         double len = sqrt(vec[0]*vec[0] + vec[1]*vec[1] + vec[2]*vec[2]);
 
         vec[0] = vec[0] / len;
@@ -49,5 +49,9 @@ public class Vector3D {
                      ( abs(vec1) * abs(vec2) );
 
         return acos(cos);
+    }
+
+    public static double toAngularAccuracy(double linearAccuracy, double distance) {
+        return Math.abs(linearAccuracy / distance);
     }
 }

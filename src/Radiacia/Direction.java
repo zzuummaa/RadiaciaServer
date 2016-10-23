@@ -5,40 +5,33 @@ import Radiacia.base.DirectionInterface;
 /**
  * Created by Fomenko_S.V. on 19.10.2016.
  */
-public class Direction extends Vector3D implements DirectionInterface {
+public class Direction extends Vector3D implements DirectionInterface<Direction> {
     /**
      * Еденичный вектор в трехмерных декартовых координатах
      */
-    private double angles[];
+    public double unitVec[];
 
-    public Direction() {
-        this.angles = new double[3];
+    /**
+     * Точность определяющяя максимальный угол отклонения вектора
+     * <code>unitVec</code> от вектора действительных значений
+     */
+    public double accuracy;
+
+    public Direction(double[] unitVec, double angularAccuracy) {
+        this.unitVec = unitVec;
+        this.accuracy = angularAccuracy;
     }
 
-    public Direction(double[] angles) {
-        this.angles = angles;
+    @Override
+    public double angleWith(Direction direction) {
+        return angleWith(unitVec, direction.unitVec);
     }
 
     /**
-     * not work
-     *
-     * @return Точность в радианах [0; 2*PI]
+     * Находит точность после вычитания двух векторов
      */
     @Override
-    public double getAccuracy() {
-        return 0.05d;
-    }
-
-    /**
-     * Находит угол между <code>this</code> и <code>direction</code> направлениями
-     *
-     * @param direction
-     * @return угол в радианах [0; 2*PI]
-     */
-    @Override
-    public double angleWith(DirectionInterface direction) {
-        Direction direct = (Direction) direction;
-
-        return angleWith(this.angles, direct.angles);
+    public double accuracyWith(Direction direction) {
+        return accuracy + direction.accuracy;
     }
 }

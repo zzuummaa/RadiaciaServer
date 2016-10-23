@@ -17,16 +17,28 @@ public class Gamer implements GamerInterface {
     public Gamer() {
         isAlive = true;
         isShoot = false;
-        position = new Position();
-        direction = new Direction();
+        position = new Position(new double[3], 10);
+        direction = new Direction(new double[3], 0.04d);
     }
 
+    /**
+     * Проверяет, попал ли один игрок в другого.
+     *
+     * Если выстрел игрока попадает в область, стреляя в которую возможно
+     * попадание исходя из точности, то считается что он попал
+     *
+     * @param gamer
+     * @return
+     */
     @Override
     public boolean isShot(GamerInterface gamer) {
-        DirectionInterface direction = this.getPosition().directionTo(gamer.getPosition());
-        double delta = this.getDirection().angleWith(direction);
+        double[] directVec = position.directionTo(gamer.getPosition());
+        double angularAccuracy = position.angularAccuracyTo(gamer.getPosition());
+        DirectionInterface direct = new Direction(directVec, angularAccuracy);
 
-        if ( Math.abs(delta) > direction.getAccuracy() ) {
+        double deltaAngle = direction.angleWith(direct);
+
+        if ( Math.abs(deltaAngle) > direction.accuracyWith(direct) ) {
             return false;
         } else {
             return true;
@@ -60,7 +72,7 @@ public class Gamer implements GamerInterface {
 
     @Override
     public PositionInterface getPosition() {
-        return null;
+        return position;
     }
 
     @Override
