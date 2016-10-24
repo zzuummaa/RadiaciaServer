@@ -32,13 +32,13 @@ public class Gamer implements GamerInterface {
      */
     @Override
     public boolean isShot(GamerInterface gamer) {
-        double[] directVec = position.directionTo(gamer.getPosition());
+        double[] directVec = position.unitVectorTo(gamer.getPosition());
         double angularAccuracy = position.angularAccuracyTo(gamer.getPosition());
         DirectionInterface direct = new Direction(directVec, angularAccuracy);
 
         double deltaAngle = direction.angleWith(direct);
 
-        if ( Math.abs(deltaAngle) > direction.accuracyWith(direct) ) {
+        if ( Math.abs(deltaAngle) > direction.angularAccuracyWith(direct) ) {
             return false;
         } else {
             return true;

@@ -21,7 +21,6 @@ public class Position extends Vector3D implements PositionInterface<Position> {
         this.accuracy = linearAccuracy;
     }
 
-    @Override
     public double[] directionTo(Position position) {
         double linearAccuracy = linearAccuracyTo(position);
         double angularAccuracy = toAngularAccuracy(linearAccuracy, abs(position.getCoordinates()));
@@ -54,12 +53,21 @@ public class Position extends Vector3D implements PositionInterface<Position> {
      *
      * @return трехмерный вектор в декартовых координатах
      */
+    @Override
     public double[] positionTo(Position position) throws ClassCastException {
 
         double[] resVec = difference(position.coordinates, this.coordinates);
         vecToAngles(resVec);
 
         return resVec;
+    }
+
+    @Override
+    public double[] unitVectorTo(Position position) {
+        double[] directVec = positionTo(position);
+        normalize(directVec);
+
+        return directVec;
     }
 
     public double[] getCoordinates() {

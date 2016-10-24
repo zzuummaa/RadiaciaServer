@@ -34,6 +34,6 @@ public class DirectionTest {
 
     @Test
     public void testAccuracyWith() throws Exception {
-        assertEquals(direction.accuracyWith(directionX), accuracy * 2, accuracy / 180);
+        assertEquals(direction.angularAccuracyWith(directionX), accuracy * 2, accuracy / 180);
     }
 }

@@ -29,7 +29,7 @@ public class PositionTest {
             trueVec[i] /= abs;
         }
 
-        double[] actualVec = position1.directionTo(position2);
+        double[] actualVec = position1.unitVectorTo(position2);
 
         for (int i = 0; i < trueVec.length; i++) {
             assertEquals(trueVec[i], actualVec[i], accuracy);

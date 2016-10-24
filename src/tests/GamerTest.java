@@ -21,7 +21,7 @@ public class GamerTest {
             }
 
             @Override
-            public double accuracyWith(DirectionInterface direction) {
+            public double angularAccuracyWith(DirectionInterface direction) {
                 return 2d;
             }
         });
@@ -38,7 +38,7 @@ public class GamerTest {
             }
 
             @Override
-            public double accuracyWith(DirectionInterface direction) {
+            public double angularAccuracyWith(DirectionInterface direction) {
                 return 0d;
             }
         });

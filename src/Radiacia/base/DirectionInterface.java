@@ -17,5 +17,5 @@ public interface DirectionInterface<A extends DirectionInterface> {
      * @param direction
      * @return
      */
-    double accuracyWith(A direction);
+    double angularAccuracyWith(A direction);
 }

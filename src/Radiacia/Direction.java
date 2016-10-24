@@ -31,7 +31,7 @@ public class Direction extends Vector3D implements DirectionInterface<Direction>
      * Находит точность после вычитания двух векторов
      */
     @Override
-    public double accuracyWith(Direction direction) {
+    public double angularAccuracyWith(Direction direction) {
         return accuracy + direction.accuracy;
     }
 }
