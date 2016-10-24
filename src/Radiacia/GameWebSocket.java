@@ -10,6 +10,9 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
@@ -27,6 +30,7 @@ public class GameWebSocket {
 
     private GamerContainerInterface gamerContainer;
     private GamerParserInterface gamerParser;
+    private JSONParser jsonParser = new JSONParser();
 
     public GameWebSocket(String name, GamerParserInterface gamerParser, GamerContainerInterface gamerContainer) {
         this.name = name;
@@ -49,13 +53,19 @@ public class GameWebSocket {
         logger.info(logPrefix + " onMessage: " + data);
 
         try {
+            JSONObject jsonObject;
             //Если геймер в данный момент стреляет, значит он еще не был обработан
             if (gamer.isShoot() || !gamer.isAlive()) {
-                session.getRemote().sendString(gamerParser.toData(gamer));
+                jsonObject = new JSONObject();
+                gamerParser.fillMap(jsonObject, gamer);
+                session.getRemote().sendString(jsonObject.toJSONString());
             } else {
-                gamerParser.fillGamer(gamer, data);
+                jsonObject = (JSONObject) jsonParser.parse(data);
+                gamerParser.fillGamer(gamer, jsonObject);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

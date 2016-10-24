@@ -1,10 +1,12 @@
 package Radiacia.base;
 
+import java.util.Map;
+
 /**
  * Created by Fomenko_S.V. on 19.10.2016.
  */
-public interface PositionParserInterface {
-    void fillPosition(PositionInterface position, String data);
+public interface PositionParserInterface<A> {
+    void fillPosition(A position, Map map);
 
-    String toData(PositionInterface position);
+    void fillMap(Map map, A position);
 }

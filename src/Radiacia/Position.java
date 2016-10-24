@@ -55,9 +55,7 @@ public class Position extends Vector3D implements PositionInterface<Position> {
      */
     @Override
     public double[] positionTo(Position position) throws ClassCastException {
-
         double[] resVec = difference(position.coordinates, this.coordinates);
-        vecToAngles(resVec);
 
         return resVec;
     }

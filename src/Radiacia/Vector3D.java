@@ -24,14 +24,6 @@ public class Vector3D {
         return res;
     }
 
-    public void vecToAngles(double[] vec) {
-        normalize(vec);
-
-        vec[0] = acos(vec[0]);
-        vec[1] = acos(vec[1]);
-        vec[2] = acos(vec[2]);
-    }
-
     public static void normalize(double[] vec) {
         double len = sqrt(vec[0]*vec[0] + vec[1]*vec[1] + vec[2]*vec[2]);
 

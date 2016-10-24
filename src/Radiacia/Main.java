@@ -1,6 +1,9 @@
 package Radiacia;
 
 import Radiacia.base.*;
+import Radiacia.utils.DirectionParser;
+import Radiacia.utils.GamerParser;
+import Radiacia.utils.PositionParser;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -19,17 +22,7 @@ public class Main {
         AuthServiceInterface authService = new AuthService();
         GamerContainerInterface gamerContainer = new GamerContainer();
         final GameMechanicsInterface gameMechanics = new GameMechanics(gamerContainer);
-        GamerParserInterface gamerParser = new GamerParserInterface() {
-            @Override
-            public void fillGamer(GamerInterface gamer, String data) {
-
-            }
-
-            @Override
-            public String toData(GamerInterface gamer) {
-                return null;
-            }
-        };
+        GamerParserInterface gamerParser = new GamerParser(new DirectionParser(), new PositionParser());
 
         context.addServlet(new ServletHolder(new LoginServlet(authService)), "/login");
         context.addServlet(new ServletHolder(new GameWebSocketServlet(authService, gamerParser, gamerContainer)), "/game");

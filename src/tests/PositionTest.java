@@ -4,7 +4,7 @@ import Radiacia.Position;
 import Radiacia.base.PositionInterface;
 import org.junit.Test;
 
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 import static junit.framework.Assert.assertEquals;
 
 public class PositionTest {
@@ -31,6 +31,29 @@ public class PositionTest {
 
         double[] actualVec = position1.unitVectorTo(position2);
 
+        vectorEquals(trueVec, actualVec, 2 * accuracy);
+    }
+
+
+    @Test
+    public void testPositionTo() throws Exception {
+        double[] truePos = {3d, 3d, 3d};
+        double[] actualPos = position1.positionTo(position2);
+
+        vectorEquals(truePos, actualPos, 2 * accuracy);
+    }
+
+    @Test
+    public void testUnitVectorTo() throws Exception {
+        double cor = 1 / sqrt(3);
+        double[] trueVec = {cor, cor, cor};
+
+        double[] actualVec = position1.unitVectorTo(position2);
+
+        vectorEquals(trueVec, actualVec, 360 * PI);
+    }
+
+    private void vectorEquals(double[] trueVec, double[] actualVec, double accuracy) {
         for (int i = 0; i < trueVec.length; i++) {
             assertEquals(trueVec[i], actualVec[i], accuracy);
         }
